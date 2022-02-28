@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "833333651158",
+    "project_id": "spending-management-6b53f",
+    "storage_bucket": "spending-management-6b53f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:833333651158:android:858fb7695161b4c525cb77",
+        "android_client_info": {
+          "package_name": "com.ryuk.spending_management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "833333651158-4l00uhc491juv19fhe4gem36ntaq33sg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ryuk.spending_management",
+            "certificate_hash": "72f3252222529e8ed249ef1e50c874b82f2fc38c"
+          }
+        },
+        {
+          "client_id": "833333651158-ft5ut6e5sic1sh4d073ql3443uvs39ni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCdRknCy56tUfPMgxz-lkVgcJL48g5jUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "833333651158-ft5ut6e5sic1sh4d073ql3443uvs39ni.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
