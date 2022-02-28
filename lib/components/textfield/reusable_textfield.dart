@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../utils/utils.dart';
 
+// ignore: must_be_immutable
 class ReusableTextField extends StatefulWidget {
   ReusableTextField(
       {Key? key,

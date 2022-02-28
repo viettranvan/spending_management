@@ -27,7 +27,7 @@ class SpendingManagement extends StatelessWidget{
           brightness: Brightness.dark,
           fontFamily: "Lato",
           scaffoldBackgroundColor: AppColor.background),
-      home: const SignInPage(),
+      home: const MainPage(),
       routes: {
         SignInPage.id: (context) => const SignInPage(),
         SignUpPage.id: (context) => const SignUpPage(),
