@@ -29,9 +29,7 @@ class SignUpView extends StatelessWidget {
     }
 
     void backToLogin() {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
-        Navigator.of(context).pushReplacementNamed(SignInPage.id);
-      });
+      Navigator.of(context).pushReplacementNamed(SignInPage.id);
     }
 
     return Scaffold(
@@ -74,7 +72,9 @@ class SignUpView extends StatelessWidget {
                       case SignUpSuccess:
                         // close loading dialog
                         Navigator.maybePop(context);
-                        backToLogin();
+                        WidgetsBinding.instance!.addPostFrameCallback((_) {
+                          backToLogin();
+                        });
                         break;
                       default:
                         return const SizedBox();

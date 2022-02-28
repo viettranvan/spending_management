@@ -5,6 +5,7 @@ import 'package:spending_management/UI/sign_in/bloc/sign_in_bloc.dart';
 import '../../../components/components.dart';
 import '../../../models/models.dart';
 import '../../../utils/utils.dart';
+import '../../forgot_password/view/forgot_password_page.dart';
 import '../../main_page/view/main_page.dart';
 import '../../sign_up/view/sign_up_page.dart';
 
@@ -33,9 +34,9 @@ class SignInView extends StatelessWidget {
       Navigator.of(context).pushNamed(SignUpPage.id);
     }
 
-    // void gotoForgotPassword() {
-    //   Navigator.of(context).pushNamed(ForgotPasswordPage.id);
-    // }
+    void gotoForgotPassword() {
+      Navigator.of(context).pushNamed(ForgotPasswordPage.id);
+    }
 
     void gotoMainPage(Authentication auth) async {
       // await HelperSharedPreferences.saveUid(auth.uid);
@@ -139,7 +140,7 @@ class SignInView extends StatelessWidget {
                     children: [
                       const Spacer(),
                       GestureDetector(
-                        onTap: () => {},
+                        onTap: () => gotoForgotPassword(),
                         child: const Text('Quên mật khẩu?',
                             style: kTextSize20w400Blue),
                       ),
