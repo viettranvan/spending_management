@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'utils.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 DateTime? currentBackPressTime;
 
@@ -37,5 +39,39 @@ String checkFirebaseAuthExceptionError(FirebaseAuthException error) {
       result = 'Login information is incorrect!';
   }
   return result;
-  
+}
+
+String getDateNow() {
+  String result = '';
+  initializeDateFormatting();
+  // DateTime now = DateTime.now();
+  DateTime now = DateTime.now();
+  switch (DateFormat('EEEE').format(now)) {
+    case 'Monday':
+      result += 'Thứ hai';
+      break;
+    case 'Tuesday':
+      result += 'Thứ ba';
+      break;
+    case 'Wednesday':
+      result += 'Thứ tư';
+      break;
+    case 'Thursday':
+      result += 'Thứ năm';
+      break;
+    case 'Friday':
+      result += 'Thứ sáu';
+      break;
+    case 'Saturday':
+      result += 'Thứ bảy';
+      break;
+    case 'Sunday':
+      result += 'Chủ nhật';
+      break;
+  }
+  String dayInMonth = now.day.toString();
+  String month = now.month.toString();
+  String year = now.year.toString();
+  result += ' , $dayInMonth tháng $month năm $year';
+  return result;
 }

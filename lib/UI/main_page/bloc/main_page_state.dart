@@ -7,11 +7,11 @@ abstract class MainPageState {
   const MainPageState(this.indexOfIndexedStack, this.indexOfBottomNavigationBar);
 }
 
-class HomePage extends MainPageState {
-  const HomePage() : super(0,0);
+class HomePageState extends MainPageState {
+  const HomePageState() : super(0,0);
 }
 
-class SettingPage extends MainPageState {
-  const SettingPage() : super(1,2);
+class SettingPageState extends MainPageState {
+  const SettingPageState() : super(1,2);
 }
 

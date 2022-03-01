@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spending_management/UI/main_page/bloc/main_page_bloc.dart';
 
 import '../../../utils/utils.dart';
+import '../../home_page/view/home_page.dart';
 
 class MainView extends StatelessWidget {
   const MainView({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class MainView extends StatelessWidget {
           body: IndexedStack(
             index: state.indexOfIndexedStack,
             children: const [
-              Center(child: Text('home')),
+              HomePage(),
               Center(child: Text('home2')),
               Center(child: Text('home3')),
             ],
