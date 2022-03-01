@@ -13,7 +13,7 @@ class MainView extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           body: IndexedStack(
-            index: state.index,
+            index: state.indexOfIndexedStack,
             children: const [
               Center(child: Text('home')),
               Center(child: Text('home2')),
@@ -22,7 +22,7 @@ class MainView extends StatelessWidget {
           ),
           bottomNavigationBar: BottomNavigationBar(
             items: getItems(),
-            currentIndex: state.index,
+            currentIndex: state.indexOfBottomNavigationBar,
             showSelectedLabels: false,
             showUnselectedLabels: false,
             backgroundColor: AppColor.background,

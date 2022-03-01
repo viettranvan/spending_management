@@ -14,14 +14,10 @@ class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
       case 0:
         emit(const HomePage());
         break;
-      case 1:
-        emit(const AddPage());
-        break;
       case 2:
         emit(const SettingPage());
         break;
       default:
-        emit(const HomePage());
         break;
     }
   }
