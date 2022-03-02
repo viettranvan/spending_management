@@ -43,7 +43,7 @@ class _SearchBarState extends State<SearchBar> {
             padding: EdgeInsets.only(top: 6.0, bottom: 6.0, right: 6.0),
             child: Icon(
               Icons.search,
-              color: AppColor.background,
+              color: AppColor.white,
             ),
           ),
           focusColor: AppColor.grey,
@@ -56,7 +56,7 @@ class _SearchBarState extends State<SearchBar> {
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
               borderSide: const BorderSide(
-                color: AppColor.background,
+                color: AppColor.white,
                 width: 1.5,
               )),
           enabledBorder: OutlineInputBorder(

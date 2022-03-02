@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spending_management/UI/new_spending/view/type_view.dart';
 import 'package:spending_management/utils/utils.dart';
 import 'dart:ui' as bt;
 
+import '../../bottom_modal_sheet/type/view/type_view.dart';
 import '../bloc/new_spending_bloc.dart';
 import '../widgets/divider.dart';
 
@@ -64,7 +64,7 @@ class NewSpendingView extends StatelessWidget {
                           children: [
                             _type(context),
                             const CustomDivider(),
-                            _time(),
+                            _time(context),
                             const CustomDivider(),
                             _note(),
                           ],
@@ -126,35 +126,45 @@ class NewSpendingView extends StatelessWidget {
     );
   }
 
-  Row _time() {
-    return Row(
-      children: const [
-        CircleAvatar(
-          radius: 15.0,
-          backgroundColor: Colors.amber,
-          backgroundImage: NetworkImage(
-              'https://toigingiuvedep.vn/wp-content/uploads/2021/06/hinh-anh-anime-girl-deo-kinh-thoi-trang-tri-thuc-dep-nhat.jpg'),
-        ),
-        SizedBox(
-          width: 15.0,
-        ),
-        Text(
-          'Thời gian',
-          style: kTextSize18w400White,
-        ),
-        SizedBox(
-          width: 15.0,
-        ),
-        Text(
-          '2/3/2022',
-          style: kTextSize18w400White,
-        ),
-        Spacer(),
-        Icon(
-          Icons.arrow_right,
-          color: Colors.white,
-        )
-      ],
+  Widget _time(BuildContext context) {
+    return GestureDetector(
+      onTap: () async {
+        await showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(1900),
+          lastDate: DateTime(2100),
+        );
+      },
+      child: Row(
+        children: const [
+          CircleAvatar(
+            radius: 15.0,
+            backgroundColor: Colors.amber,
+            backgroundImage: NetworkImage(
+                'https://toigingiuvedep.vn/wp-content/uploads/2021/06/hinh-anh-anime-girl-deo-kinh-thoi-trang-tri-thuc-dep-nhat.jpg'),
+          ),
+          SizedBox(
+            width: 15.0,
+          ),
+          Text(
+            'Thời gian',
+            style: kTextSize18w400White,
+          ),
+          SizedBox(
+            width: 15.0,
+          ),
+          Text(
+            '2/3/2022',
+            style: kTextSize18w400White,
+          ),
+          Spacer(),
+          Icon(
+            Icons.arrow_right,
+            color: Colors.white,
+          )
+        ],
+      ),
     );
   }
 

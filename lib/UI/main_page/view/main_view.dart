@@ -9,7 +9,7 @@ import '../../home_page/view/home_page.dart';
 class MainView extends StatelessWidget {
   const MainView({Key? key}) : super(key: key);
 
-  gotoNewSpending(BuildContext context){
+  gotoNewSpending(BuildContext context) {
     Navigator.of(context).pushNamed(NewSpendingPage.id);
   }
 
@@ -20,10 +20,48 @@ class MainView extends StatelessWidget {
         return Scaffold(
           body: IndexedStack(
             index: state.indexOfIndexedStack,
-            children: const [
-              HomePage(),
-              Center(child: Text('home2')),
-              Center(child: Text('home3')),
+            children: [
+              const HomePage(),
+              DefaultTabController(
+                length: 4,
+                initialIndex: 0,
+                child: Column(
+                  children: [
+                    const TabBar(
+                      labelColor: Colors.black45,
+                      tabs: [
+                        Padding(
+                            padding: EdgeInsets.only(top: 12, bottom: 12),
+                            child: Text('green')),
+                        Padding(
+                            padding: EdgeInsets.only(top: 12, bottom: 12),
+                            child: Text('red')),
+                        Padding(
+                            padding: EdgeInsets.only(top: 12, bottom: 12),
+                            child: Text('yellow')),
+                        Padding(
+                            padding: EdgeInsets.only(top: 12, bottom: 12),
+                            child: Text('cyan')),
+                      ],
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          Container(
+                            color: Colors.green,
+                            child: const Center(
+                              child: Text('heelo'),
+                            ),
+                          ),
+                          Container(color: Colors.red),
+                          Container(color: Colors.yellow),
+                          Container(color: Colors.cyan),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
