@@ -75,3 +75,15 @@ String getDateNow() {
   result += ' , $dayInMonth tháng $month năm $year';
   return result;
 }
+
+String formatMoney(String moneyString) {
+  try {
+    String result = '';
+    String validateMoney = moneyString.replaceAll(RegExp(r"\D"), "");
+    int money = int.parse(validateMoney);
+    result = NumberFormat.currency(locale: 'vi').format(money);
+    return result;
+  } catch (e) {
+    return '';
+  }
+}
