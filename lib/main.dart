@@ -10,12 +10,20 @@ import 'utils/utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyBCRkVPq84gq3erUDtuNlLRmaYgFWgPHGk",
+          authDomain: "spending-management-6b53f.firebaseapp.com",
+          projectId: "spending-management-6b53f",
+          storageBucket: "spending-management-6b53f.appspot.com",
+          messagingSenderId: "833333651158",
+          appId: "1:833333651158:web:03009cf3148b389d25cb77"),
+    );
+
   runApp(const SpendingManagement());
-  
 }
 
-class SpendingManagement extends StatelessWidget{
+class SpendingManagement extends StatelessWidget {
   const SpendingManagement({Key? key}) : super(key: key);
 
   @override
@@ -38,5 +46,4 @@ class SpendingManagement extends StatelessWidget{
       },
     );
   }
-
 }

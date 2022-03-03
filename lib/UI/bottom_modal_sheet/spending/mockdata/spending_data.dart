@@ -1,7 +1,7 @@
 
 import '../model/spending.dart';
 
-List<Spending> lits = [
+List<Spending> listSpending = [
   Spending(iconPath: '',title: 'Thực phẩm'),
   Spending(iconPath: '',title: 'Ăn Sáng'),
   Spending(iconPath: '',title: 'Quần áo'),

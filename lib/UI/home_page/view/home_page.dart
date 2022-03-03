@@ -24,31 +24,33 @@ class HomePage extends StatelessWidget {
           ),
 
           SliverToBoxAdapter(
-            child: Stack(
-              children: [
-                Image.network(
-                    'https://p4.wallpaperbetter.com/wallpaper/94/600/32/anime-anime-girls-digital-art-artwork-portrait-display-hd-wallpaper-preview.jpg'),
-                Positioned(
-                  top: -10,
-                  left: -20,
-                  child: SizedBox(
-                    height: 200,
-                    width: 200,
-                    child: Image.asset('assets/images/bubble_chat.png'),
+            child: Center(
+              child: Stack(
+                children: [
+                  Image.network(
+                      'https://p4.wallpaperbetter.com/wallpaper/94/600/32/anime-anime-girls-digital-art-artwork-portrait-display-hd-wallpaper-preview.jpg'),
+                  Positioned(
+                    top: -10,
+                    left: -20,
+                    child: SizedBox(
+                      height: 200,
+                      width: 200,
+                      child: Image.asset('assets/images/bubble_chat.png'),
+                    ),
                   ),
-                ),
-                const Positioned(
-                  top: 50.0,
-                  left: 50.0,
-                  child: Text(
-                    'Chưa có\ndữ liệu!',
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                  const Positioned(
+                    top: 50.0,
+                    left: 50.0,
+                    child: Text(
+                      'Chưa có\ndữ liệu!',
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           // SliverList(

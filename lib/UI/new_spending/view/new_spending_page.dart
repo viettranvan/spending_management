@@ -10,7 +10,7 @@ class NewSpendingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => NewSpendingBloc(),
-      child: const NewSpendingView(),
+      child:  NewSpendingView(),
     );
   }
 }
