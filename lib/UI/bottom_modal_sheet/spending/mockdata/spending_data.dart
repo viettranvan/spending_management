@@ -43,3 +43,62 @@ List<Spending> listSpending = [
   Spending(iconPath: '',title: 'Vé'),
   Spending(iconPath: '',title: 'Khác'),
 ];
+
+List<Map<String, dynamic>> lstCategory = [
+  {
+    'name': 'DRESSES',
+    'url': 'https://i.ibb.co/7S6H4gH/image.png',
+  },
+  {
+    'name': 'JUMPSUITS',
+    'url': 'https://i.ibb.co/pxQJy4Q/Image2.png',
+  },
+  {
+    'name': 'SKIRTS',
+    'url': 'https://i.ibb.co/kBVVYbT/Image3.png',
+  },
+  {
+    'name': 'SHORTS',
+    'url': 'https://i.ibb.co/znQVGPK/Image4.png',
+  },
+  {
+    'name': 'SHORTS',
+    'url': 'https://i.ibb.co/znQVGPK/Image4.png',
+  },
+  {
+    'name': 'SHORTS',
+    'url': 'https://i.ibb.co/znQVGPK/Image4.png',
+  },
+  {
+    'name': 'SHORTS',
+    'url': 'https://i.ibb.co/znQVGPK/Image4.png',
+  },
+  {
+    'name': 'SHORTS',
+    'url': 'https://i.ibb.co/znQVGPK/Image4.png',
+  },
+  {
+    'name': 'SHORTS',
+    'url': 'https://i.ibb.co/znQVGPK/Image4.png',
+  },
+  {
+    'name': 'SHORTS',
+    'url': 'https://i.ibb.co/znQVGPK/Image4.png',
+  },
+  {
+    'name': 'SHORTS',
+    'url': 'https://i.ibb.co/znQVGPK/Image4.png',
+  },
+  {
+    'name': 'SHORTS',
+    'url': 'https://i.ibb.co/znQVGPK/Image4.png',
+  },
+  {
+    'name': 'SHORTS',
+    'url': 'https://i.ibb.co/znQVGPK/Image4.png',
+  },
+  {
+    'name': 'SHORTS',
+    'url': 'https://i.ibb.co/znQVGPK/Image4.png',
+  },
+];

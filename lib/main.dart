@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spending_management/UI/main_page/view/main_page.dart';
 import 'package:spending_management/UI/sign_up/view/sign_up_page.dart';
@@ -9,16 +10,21 @@ import 'UI/sign_in/view/sign_in_page.dart';
 import 'utils/utils.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey: "AIzaSyBCRkVPq84gq3erUDtuNlLRmaYgFWgPHGk",
-          authDomain: "spending-management-6b53f.firebaseapp.com",
-          projectId: "spending-management-6b53f",
-          storageBucket: "spending-management-6b53f.appspot.com",
-          messagingSenderId: "833333651158",
-          appId: "1:833333651158:web:03009cf3148b389d25cb77"),
-    );
+  if (!kIsWeb) {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+  }
+
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp(
+  //     options: const FirebaseOptions(
+  //         apiKey: "AIzaSyBCRkVPq84gq3erUDtuNlLRmaYgFWgPHGk",
+  //         authDomain: "spending-management-6b53f.firebaseapp.com",
+  //         projectId: "spending-management-6b53f",
+  //         storageBucket: "spending-management-6b53f.appspot.com",
+  //         messagingSenderId: "833333651158",
+  //         appId: "1:833333651158:web:03009cf3148b389d25cb77"),
+  //   );
 
   runApp(const SpendingManagement());
 }
