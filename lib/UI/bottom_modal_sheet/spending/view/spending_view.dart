@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spending_management/UI/bottom_modal_sheet/spending/mockdata/spending_data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spending_management/UI/bottom_modal_sheet/spending/bloc/spending_bloc.dart';
 import '../../widget/widget.dart';
 
 class SpendingView extends StatelessWidget {
@@ -7,37 +8,52 @@ class SpendingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    // var bloc = context.read<SpendingBloc>();
     Widget itemBuilder(BuildContext context, int index) {
-      return TypeItem(
-        iconPath:
-            'https://i.pinimg.com/originals/45/87/0c/45870c609864fdded4b8869276f57314.jpg',
-        title: listSpending[index].title ?? '',
-        // _onCategoryView(context),
+        
+      return BlocBuilder<SpendingBloc,SpendingState>(
+        builder:(context, state) =>  GestureDetector(
+          onTap: () {
+            //TODO
+          },
+          child: TypeItem(
+            iconPath:
+                'https://i.pinimg.com/originals/45/87/0c/45870c609864fdded4b8869276f57314.jpg',
+            title: (state as SpendingInitial).lists[index].title ?? '',
+            // _onCategoryView(context),
+          ),
+        ),
       );
     }
-    return Column(
-      children: [
-        const SizedBox(
-          height: 10.0,
-        ),
-        const SearchBar(hintText: 'Search elements'),
-        const SizedBox(
-          height: 10.0,
-        ),
-        Expanded(
-          child: GridView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: listSpending.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-                childAspectRatio: 6 / 2,
-              ),
-              itemBuilder: itemBuilder),
-        ),
-      ],
+
+    return BlocBuilder<SpendingBloc, SpendingState>(
+      builder: (context, state) => Column(
+        children: [
+          const SizedBox(
+            height: 10.0,
+          ),
+          SearchBar(
+            hintText: 'Search elements',
+            controller: context.read<SpendingBloc>().searchController,
+            onChangeText: ()=>context.read<SpendingBloc>().add(SearchSpending())
+          ),
+          const SizedBox(
+            height: 10.0,
+          ),
+          Expanded(
+            child: GridView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: (state as SpendingInitial).lists.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                  childAspectRatio: 6 / 2,
+                ),
+                itemBuilder: itemBuilder),
+          ),
+        ],
+      ),
     );
   }
 }

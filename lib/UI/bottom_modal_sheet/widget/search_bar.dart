@@ -1,20 +1,25 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:spending_management/utils/utils.dart';
 
-class SearchBar extends StatefulWidget {
+class SearchBar extends StatelessWidget {
   final String hintText;
-  const SearchBar({Key? key, required this.hintText}) : super(key: key);
+  final TextEditingController controller;
+  final Function() onChangeText;
 
-  @override
-  _SearchBarState createState() => _SearchBarState();
-}
+  const SearchBar({
+    Key? key,
+    required this.hintText,
+    required this.controller,
+    required this.onChangeText,
+  }) : super(key: key);
 
-class _SearchBarState extends State<SearchBar> {
-  bool _click = false;
-  bool _changeColorIcon = false;
+
 
   @override
   Widget build(BuildContext context) {
+    Timer? _debounce;
     return SizedBox(
       height: 32,
       child: TextFormField(
@@ -22,22 +27,14 @@ class _SearchBarState extends State<SearchBar> {
         style: const TextStyle(
           fontSize: 12,
         ),
-        onTap: () {
-          setState(() {
-            _changeColorIcon = !_changeColorIcon;
-            _click = true;
+        onChanged: (value) {
+          if (_debounce?.isActive ?? false) _debounce?.cancel();
+          _debounce = Timer(const Duration(milliseconds: 1), () {
+            onChangeText();
           });
         },
-        onFieldSubmitted: (value) {
-          setState(() {
-            if (value.isEmpty) {
-              _click = false;
-            }
-            _changeColorIcon = !_changeColorIcon;
-          });
-        },
-        textAlign: _click ? TextAlign.start : TextAlign.center,
         textInputAction: TextInputAction.search,
+        controller: controller,
         decoration: InputDecoration(
           prefixIcon: const Padding(
             padding: EdgeInsets.only(top: 6.0, bottom: 6.0, right: 6.0),
@@ -50,7 +47,7 @@ class _SearchBarState extends State<SearchBar> {
           fillColor: AppColor.grey,
           hintStyle: kTextSize12w400White,
           isCollapsed: true,
-          hintText: widget.hintText,
+          hintText: hintText,
           contentPadding:
               const EdgeInsets.only(top: 8.0, bottom: 8.0, right: 40.0),
           focusedBorder: OutlineInputBorder(

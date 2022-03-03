@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spending_management/UI/bottom_modal_sheet/earnings/view/earning_view.dart';
-import 'package:spending_management/UI/bottom_modal_sheet/spending/view/spending_view.dart';
 
 import '../../../../utils/utils.dart';
+import '../../spending/view/spending_page.dart';
 import '../../widget/widget.dart';
 
 class TypeModalBSView extends StatefulWidget {
@@ -60,7 +60,7 @@ class _TypeModalBSViewState extends State<TypeModalBSView>
                   child: TabBarView(
                     controller: controller,
                     children: const [
-                      SpendingView(),
+                      SpendingPage(),
                       EarningsView()
                     ],
                   ),

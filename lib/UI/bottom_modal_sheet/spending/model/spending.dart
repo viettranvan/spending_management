@@ -1,6 +1,6 @@
-class Spending{
+class SpendingModel{
   final String? iconPath;
   final String? title;
 
-   Spending({this.iconPath,this.title});
+   SpendingModel({this.iconPath,this.title});
 }
