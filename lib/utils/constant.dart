@@ -76,6 +76,15 @@ String getDateNow() {
   return result;
 }
 
+String getDateString(DateTime datetime) {
+  String result = '';
+  String dayInMonth = datetime.day.toString();
+  String month = datetime.month.toString();
+  String year = datetime.year.toString();
+  result += '$dayInMonth tháng $month năm $year';
+  return result;
+}
+
 String formatMoney(String moneyString) {
   try {
     String result = '';

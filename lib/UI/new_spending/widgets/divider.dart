@@ -5,12 +5,9 @@ class CustomDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.0),
-      child: Divider(
-        color: Colors.white,
-        thickness: 1.0,
-      ),
+    return const Divider(
+      color: Colors.white,
+      thickness: 1.0,
     );
   }
 }
