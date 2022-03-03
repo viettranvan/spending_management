@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spending_management/UI/sign_in/bloc/sign_in_bloc.dart';
-import 'package:spending_management/UI/sign_in/view/sign_in_view.dart';
 
-import '../../../services/services.dart';
+import '../../../../services/services.dart';
+import '../bloc/sign_in_bloc.dart';
+import 'sign_in_view.dart';
 
 class SignInPage extends StatelessWidget {
   static const String id = 'sign_in';

@@ -2,8 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../../services/services.dart';
-import '../../../utils/utils.dart';
+import '../../../../services/services.dart';
+import '../../../../utils/utils.dart';
+
 
 part 'forgot_password_event.dart';
 part 'forgot_password_state.dart';

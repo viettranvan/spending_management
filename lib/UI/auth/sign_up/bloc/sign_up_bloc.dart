@@ -1,39 +1,43 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../../models/models.dart';
-import '../../../services/services.dart';
-import '../../../utils/utils.dart';
 
-part 'sign_in_event.dart';
-part 'sign_in_state.dart';
+import '../../../../models/models.dart';
+import '../../../../services/services.dart';
+import '../../../../utils/utils.dart';
 
-class SignInBloc extends Bloc<SignInEvent, SignInState> {
+part 'sign_up_event.dart';
+part 'sign_up_state.dart';
+
+class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final AuthService authService;
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmController = TextEditingController();
 
-  SignInBloc({required this.authService}) : super(SignInInitial()) {
-    on<SendLoginRequest>(_onSendLoginRequest);
+  SignUpBloc({required this.authService}) : super(SignUpInitial()) {
+    on<SendSignUpRequest>(_onSendSignUpRequest);
   }
 
-  _onSendLoginRequest(SendLoginRequest event, Emitter<SignInState> emit) async {
+  _onSendSignUpRequest(
+      SendSignUpRequest event, Emitter<SignUpState> emit) async {
     try {
       String check = checkValidate(event.email, event.password);
-
       if (check.isNotEmpty) {
-        emit(SignInFailure(errorMessage: check));
+        emit(SignUpFailure(errorMessage: check));
+      } else if (event.password != event.confirm) {
+        emit(SignUpFailure(errorMessage: 'Password not match!'));
       } else {
-        var authenticationObj = await authService.signInWithEmailAndPassword(
-            event.email, event.password);
+        var authenticationObj = await authService
+            .createUserWithEmailAndPassword(event.email, event.password);
+
         if (authenticationObj.runtimeType == Authentication) {
-          emit(SignInSuccess(authentication: authenticationObj));
+          emit(SignUpSuccess(authentication: authenticationObj));
         } else if (authenticationObj.runtimeType == FirebaseAuthException) {
-          emit(
-            SignInFailure(
-              errorMessage: checkFirebaseAuthExceptionError(authenticationObj),
-            ),
-          );
+          emit(SignUpFailure(
+              errorMessage:
+                  checkFirebaseAuthExceptionError(authenticationObj)));
         }
       }
     } catch (e) {
@@ -59,8 +63,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     if (email.isNotEmpty && password.isNotEmpty) {
       if (!Validation().validatorEmail(email)) {
         result = 'Incorrect email format';
-      } else if (password.length < 6) {
-        result = 'Password at least 6 characters';
+      } else if (!Validation().validatorPassword(password)) {
+        result =
+            'Incorrect password format\n(Must have: Upper, Lower, Number, Special, at least 6 characters.)';
       }
     }
 
@@ -71,6 +76,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   Future<void> close() {
     emailController.dispose();
     passwordController.dispose();
+    confirmController.dispose();
     return super.close();
   }
 }

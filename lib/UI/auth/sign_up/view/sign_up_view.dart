@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../components/components.dart';
-import '../../../utils/utils.dart';
+import '../../../../components/components.dart';
+import '../../../../utils/utils.dart';
 import '../../sign_in/view/sign_in_page.dart';
 import '../bloc/sign_up_bloc.dart';
 

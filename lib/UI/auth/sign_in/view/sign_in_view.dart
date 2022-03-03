@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spending_management/UI/sign_in/bloc/sign_in_bloc.dart';
-
-import '../../../components/components.dart';
-import '../../../models/models.dart';
-import '../../../utils/utils.dart';
+import '../../../../components/components.dart';
+import '../../../../models/models.dart';
+import '../../../../utils/utils.dart';
+import '../../../main_page/view/main_page.dart';
 import '../../forgot_password/view/forgot_password_page.dart';
-import '../../main_page/view/main_page.dart';
 import '../../sign_up/view/sign_up_page.dart';
+import '../bloc/sign_in_bloc.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({Key? key}) : super(key: key);
