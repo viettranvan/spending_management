@@ -14,7 +14,6 @@ class SpendingView extends StatelessWidget {
       return BlocBuilder<SpendingBloc,SpendingState>(
         builder:(context, state) =>  GestureDetector(
           onTap: () {
-            //TODO
           },
           child: TypeItem(
             iconPath:

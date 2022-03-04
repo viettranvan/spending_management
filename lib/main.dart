@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spending_management/UI/main_page/view/main_page.dart';
+import 'package:spending_management/UI/profile_page/view/change_password_page.dart';
+import 'package:spending_management/UI/splash_screen/view/splash_page.dart';
 
 import 'UI/auth/forgot_password/view/forgot_password_page.dart';
 import 'UI/auth/sign_in/view/sign_in_page.dart';
@@ -42,13 +44,14 @@ class SpendingManagement extends StatelessWidget {
           brightness: Brightness.dark,
           fontFamily: "Lato",
           scaffoldBackgroundColor: AppColor.background),
-      home: const MainPage(),
+      home: const SplashScreen(),
       routes: {
         SignInPage.id: (context) => const SignInPage(),
         SignUpPage.id: (context) => const SignUpPage(),
         ForgotPasswordPage.id: (context) => const ForgotPasswordPage(),
         MainPage.id: (context) => const MainPage(),
         NewSpendingPage.id: (context) => const NewSpendingPage(),
+        ChangePasswordPage.id: (context) => const ChangePasswordPage(),
       },
     );
   }

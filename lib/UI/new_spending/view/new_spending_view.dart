@@ -6,6 +6,7 @@ import '../../bottom_modal_sheet/type_modal_bs.dart/view/type_modal_bs.dart';
 import '../bloc/new_spending_bloc.dart';
 import '../widgets/divider.dart';
 
+// ignore: must_be_immutable
 class NewSpendingView extends StatelessWidget {
   NewSpendingView({Key? key}) : super(key: key);
 
@@ -255,7 +256,7 @@ class NewSpendingView extends StatelessWidget {
   ];
 
   _onSelectedTemplate(template) {
-      print(template);
+      // print(template);
     }
     
   _openNewLookBook(BuildContext context) {

@@ -20,6 +20,7 @@ class _TypeModalBSViewState extends State<TypeModalBSView>
     Tab(text: 'Chi tiêu'),
     Tab(text: 'Thu nhập'),
   ];
+  // ignore: prefer_typing_uninitialized_variables
   late final controller;
   @override
   void initState() {

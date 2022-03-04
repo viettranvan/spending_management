@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../components/components.dart';
 import '../../../../models/models.dart';
+import '../../../../services/services.dart';
 import '../../../../utils/utils.dart';
 import '../../../main_page/view/main_page.dart';
 import '../../forgot_password/view/forgot_password_page.dart';
@@ -38,23 +39,15 @@ class SignInView extends StatelessWidget {
     }
 
     void gotoMainPage(Authentication auth) async {
-      // await HelperSharedPreferences.saveUid(auth.uid);
-      // await HelperSharedPreferences.saveToken(auth.token);
-      // await HelperSharedPreferences.saveLoginType(0);
-      // await HelperSharedPreferences.saveExpirationTime(auth.expiredToken);
-      // await HelperSharedPreferences.saveLogin(true);
+      await HelperSharedPreferences.saveUid(auth.uid);
+      await HelperSharedPreferences.saveToken(auth.token);
+      await HelperSharedPreferences.saveExpirationTime(auth.expiredToken);
+      await HelperSharedPreferences.saveLogin(true);
 
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         Navigator.pushReplacementNamed(context, MainPage.id);
       });
     }
-
-    // void gotoVerifyPage() {
-    //   WidgetsBinding.instance!.addPostFrameCallback((_) {
-    //     Navigator.pushNamedAndRemoveUntil(
-    //         context, VerifyEmail.id, (Route<dynamic> route) => false);
-    //   });
-    // }
 
     return Scaffold(
       body: WillPopScope(
