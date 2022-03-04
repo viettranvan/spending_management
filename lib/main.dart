@@ -2,12 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spending_management/UI/main_page/view/main_page.dart';
-import 'package:spending_management/UI/profile_page/view/change_password_page.dart';
 import 'package:spending_management/UI/splash_screen/view/splash_page.dart';
 
 import 'UI/auth/forgot_password/view/forgot_password_page.dart';
 import 'UI/auth/sign_in/view/sign_in_page.dart';
 import 'UI/auth/sign_up/view/sign_up_page.dart';
+import 'UI/change_password/view/change_password_page.dart';
 import 'UI/new_spending/view/new_spending_page.dart';
 import 'utils/utils.dart';
 

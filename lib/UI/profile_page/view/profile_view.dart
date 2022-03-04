@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spending_management/UI/auth/sign_in/view/sign_in_page.dart';
+import 'package:spending_management/UI/profile_page/bloc/profile_bloc.dart';
 
 import '../../../components/components.dart';
 import '../../../services/services.dart';
 import '../../../utils/utils.dart';
-import 'change_password_page.dart';
+import '../../change_password/view/change_password_page.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -73,7 +75,8 @@ class ProfileView extends StatelessWidget {
       }
     }
 
-    void gotoChangePassword() {
+    void gotoChangePassword( BuildContext context) {
+      print('context: $context');
       Navigator.of(context).pushNamed(ChangePasswordPage.id);
     }
 
@@ -178,10 +181,12 @@ class ProfileView extends StatelessWidget {
                   buttonColor: AppColor.red,
                 ),
                 const SizedBox(height: 10.0),
-                ReusableButton(
-                  onTap: gotoChangePassword,
-                  buttonTitle: 'Đổi mật khẩu',
-                  buttonColor: AppColor.green,
+                BlocBuilder<ProfileBloc,ProfileState>(
+                  builder:(context, state) =>  ReusableButton(
+                    onTap: ()=> Navigator.of(context).pushNamed(ChangePasswordPage.id),
+                    buttonTitle: 'Đổi mật khẩu',
+                    buttonColor: AppColor.green,
+                  ),
                 )
               ],
             ),

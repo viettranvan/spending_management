@@ -1,16 +1,18 @@
-part of 'profile_bloc.dart';
+part of 'change_password_bloc.dart';
 
 @immutable
-abstract class ProfileEvent {}
+abstract class ChangePasswordEvent {}
 
-class SaveProfileEvent extends ProfileEvent {
+
+
+class SaveProfileEvent extends ChangePasswordEvent {
   final User user;
   final String name;
 
   SaveProfileEvent({required this.user, required this.name});
 }
 
-class CheckErrorEvent extends ProfileEvent{
+class CheckErrorEvent extends ChangePasswordEvent{
   final User? user;
   final String currentPassword;
   final String newPassword;
@@ -24,9 +26,9 @@ class CheckErrorEvent extends ProfileEvent{
   });
 }
 
-class ChangePasswordEvent extends ProfileEvent {
+class OnChangePasswordEvent extends ChangePasswordEvent {
   final String newPassword;
   final User? user;
 
-  ChangePasswordEvent({required this.user,required this.newPassword});
+  OnChangePasswordEvent({required this.user,required this.newPassword});
 }
