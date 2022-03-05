@@ -16,20 +16,18 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _auth = FirebaseAuth.instance;
-
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _emailController = TextEditingController();
-    _emailController.text = 'abc';
+    var bloc = BlocProvider.of<ProfileBloc>(context);
 
     void onLogOut() async {
       try {
         showDialog(
           context: context,
           builder: (context) => CustomDialog(
-            title: 'Log out',
-            content: 'Do you want to log out?',
+            title: 'Đăng xuất',
+            content: 'Bạn có muốn đăng xuất?',
             onSubmit: () async {
               showDialog(
+                  barrierDismissible: false,
                   context: context,
                   builder: (context) => const LoadingDialog());
 
@@ -38,7 +36,6 @@ class ProfileView extends StatelessWidget {
               await AuthService().signOut();
               await HelperSharedPreferences.saveUid('');
               await HelperSharedPreferences.saveToken('');
-              await HelperSharedPreferences.saveLoginType(-1);
               await HelperSharedPreferences.saveExpirationTime(-1);
               await HelperSharedPreferences.saveLogin(false);
               Navigator.pop(context);
@@ -52,13 +49,16 @@ class ProfileView extends StatelessWidget {
       }
     }
 
-    // void onSaveProfile() {
-    //   showDialog(context: context, builder: (context) => const LoadingDialog());
-    //   if (_auth.currentUser != null) {
-    //     BlocProvider.of<ProfileBloc>(context).add(SaveProfileEvent(
-    //         user: _auth.currentUser!, name: _nameController.text));
-    //   }
-    // }
+    void onUpdateProfile() {
+      showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) => const LoadingDialog());
+      if (_auth.currentUser != null) {
+        BlocProvider.of<ProfileBloc>(context)
+            .add(SaveProfileEvent(user: _auth.currentUser!));
+      }
+    }
 
     Future pickImage() async {
       try {
@@ -67,16 +67,19 @@ class ProfileView extends StatelessWidget {
           return;
         }
         if (_auth.currentUser != null) {
-          // BlocProvider.of<AvatarBloc>(context).add(ChangeAvatarEvent(
-          //     imagePath: image.path, user: _auth.currentUser!));
+          BlocProvider.of<ProfileBloc>(context).add(ChangeAvatarEvent(
+              imagePath: image.path, user: _auth.currentUser!));
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) => const LoadingDialog());
         }
       } catch (e) {
         debugPrint(e.toString());
       }
     }
 
-    void gotoChangePassword( BuildContext context) {
-      print('context: $context');
+    void gotoChangePassword(BuildContext context) {
       Navigator.of(context).pushNamed(ChangePasswordPage.id);
     }
 
@@ -104,37 +107,37 @@ class ProfileView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20.0),
-                // BlocBuilder<ProfileBloc, ProfileState>(
-                //   builder: (context, state) {
-                //     switch (state.runtimeType) {
-                //       case SaveProfileSuccess:
-                //         // close loading dialog
-                //         Navigator.of(context).pop();
-                //         Future.delayed(Duration.zero).then((_) {
-                //           ScaffoldMessenger.of(context)
-                //               .showSnackBar(const SnackBar(
-                //             content: Text('Update profile successfully!',
-                //                 style: kTextSize18w400White),
-                //             backgroundColor: AppColor.background,
-                //           ));
-                //         });
-                //         return const SizedBox();
-                //       case SaveProfileFailure:
-                //         // close loading dialog
-                //         Navigator.of(context).pop();
-                //         Future.delayed(Duration.zero).then((_) {
-                //           ScaffoldMessenger.of(context)
-                //               .showSnackBar(const SnackBar(
-                //             content: Text('Update profile failure!',
-                //                 style: kTextSize18w400White),
-                //             backgroundColor: AppColor.background,
-                //           ));
-                //         });
-                //         return const SizedBox();
-                //     }
-                //     return const SizedBox();
-                //   },
-                // ),
+                BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, state) {
+                    switch (state.runtimeType) {
+                      case SaveProfileSuccess:
+                        // close loading dialog
+                        Navigator.of(context).maybePop();
+                        Future.delayed(Duration.zero).then((_) {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text('Cập nhật thông tin thành công!',
+                                style: kTextSize18w400White),
+                            backgroundColor: AppColor.background,
+                          ));
+                        });
+                        return const SizedBox();
+                      case SaveProfileFailure:
+                        // close loading dialog
+                        Navigator.of(context).maybePop();
+                        Future.delayed(Duration.zero).then((_) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                (state as SaveProfileFailure).errorText,
+                                style: kTextSize18w400White),
+                            backgroundColor: AppColor.background,
+                          ));
+                        });
+                        return const SizedBox();
+                    }
+                    return const SizedBox();
+                  },
+                ),
                 Center(
                   child: Container(
                     height: 150,
@@ -146,9 +149,32 @@ class ProfileView extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(150.0),
-                      child: Image.network(
-                        'https://qph.fs.quoracdn.net/main-qimg-510584207e29afd39876fd55855507ba',
-                        fit: BoxFit.cover,
+                      child: BlocBuilder<ProfileBloc, ProfileState>(
+                        builder: (context, state) {
+                          if (state is UploadAvatarSuccess) {
+                            Navigator.of(context).maybePop();
+                            Future.delayed(Duration.zero).then((_) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text('Upload Avatar thành công!',
+                                    style: kTextSize18w400White),
+                                backgroundColor: AppColor.background,
+                              ));
+                            });
+                          }
+                          return FadeInImage(
+                            placeholder: const AssetImage(
+                              'assets/images/image_placeholder.gif',
+                            ),
+                            image: NetworkImage(_auth.currentUser == null
+                                ? noProfileImage
+                                : _auth.currentUser?.photoURL ??
+                                    noProfileImage),
+                            fit: BoxFit.cover,
+                            height: 150.0,
+                            width: 150.0,
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -167,23 +193,24 @@ class ProfileView extends StatelessWidget {
                 const Text('Họ tên', style: kTextSize20w400White),
                 const SizedBox(height: 10.0),
                 ReusableTextField(
-                  controller: _nameController,
+                  controller: bloc.nameController,
                   hintText: 'Name',
                 ),
                 const SizedBox(height: 10.0),
                 const Text('Email', style: kTextSize20w400White),
                 const SizedBox(height: 10.0),
-                ReusableTextField(controller: _emailController, enabled: false),
+                ReusableTextField(
+                    controller: bloc.emailController, enabled: false),
                 const SizedBox(height: 20.0),
                 ReusableButton(
-                  onTap: () {},
+                  onTap: onUpdateProfile,
                   buttonTitle: 'Cập nhật thông tin',
                   buttonColor: AppColor.red,
                 ),
                 const SizedBox(height: 10.0),
-                BlocBuilder<ProfileBloc,ProfileState>(
-                  builder:(context, state) =>  ReusableButton(
-                    onTap: ()=> Navigator.of(context).pushNamed(ChangePasswordPage.id),
+                BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, state) => ReusableButton(
+                    onTap: () => gotoChangePassword(context),
                     buttonTitle: 'Đổi mật khẩu',
                     buttonColor: AppColor.green,
                   ),

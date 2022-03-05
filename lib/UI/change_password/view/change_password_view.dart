@@ -17,7 +17,7 @@ class ChangePasswordView extends StatelessWidget {
     final auth = FirebaseAuth.instance;
 
     void onConfirmChange() {
-      showDialog(context: context, builder: (context) => const LoadingDialog());
+      showDialog(context: context, barrierDismissible: false,builder: (context) => const LoadingDialog());
       BlocProvider.of<ChangePasswordBloc>(context).add(CheckErrorEvent(
         user: auth.currentUser,
         currentPassword: _bloc.currentController.text,

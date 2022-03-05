@@ -5,28 +5,13 @@ abstract class ProfileEvent {}
 
 class SaveProfileEvent extends ProfileEvent {
   final User user;
-  final String name;
 
-  SaveProfileEvent({required this.user, required this.name});
+  SaveProfileEvent({required this.user});
 }
 
-class CheckErrorEvent extends ProfileEvent{
-  final User? user;
-  final String currentPassword;
-  final String newPassword;
-  final String confirmPassword;
+class ChangeAvatarEvent extends ProfileEvent {
+  final User user;
+  final String imagePath;
 
-  CheckErrorEvent({
-    required this.user,
-    required this.currentPassword,
-    required this.newPassword,
-    required this.confirmPassword,
-  });
-}
-
-class ChangePasswordEvent extends ProfileEvent {
-  final String newPassword;
-  final User? user;
-
-  ChangePasswordEvent({required this.user,required this.newPassword});
+  ChangeAvatarEvent({required this.user, required this.imagePath});
 }
