@@ -1,5 +1,5 @@
 
-import '../model/spending.dart';
+import '../../../../models/spending_model.dart';
 
 List<SpendingModel> listSpending = [
   SpendingModel(iconPath: '',title: 'Thực phẩm'),

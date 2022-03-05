@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spending_management/UI/bottom_modal_sheet/type_modal_bs.dart/bloc/type_bloc.dart';
+import 'package:spending_management/models/spending_model.dart';
 import 'package:spending_management/utils/utils.dart';
 
 import '../../bottom_modal_sheet/type_modal_bs.dart/view/type_modal_bs.dart';
@@ -50,7 +52,7 @@ class NewSpendingView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _moneyTextField(bloc),
+                      _moneyTextField(context, bloc),
                       _moneyValue(state),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -61,7 +63,7 @@ class NewSpendingView extends StatelessWidget {
                             )),
                         child: Column(
                           children: [
-                            _type(context),
+                            _type(context, bloc),
                             const CustomDivider(),
                             _time(context),
                             const CustomDivider(),
@@ -96,20 +98,57 @@ class NewSpendingView extends StatelessWidget {
     );
   }
 
-  Widget _moneyTextField(NewSpendingBloc bloc) {
-    return TextField(
-      controller: bloc.moneyController,
-      style: kTextSize40BoldWhite,
-      keyboardType: TextInputType.number,
-      onChanged: (value) {
-        bloc.add(MoneyChange(money: value));
-      },
-      decoration: const InputDecoration(
-          filled: true,
-          fillColor: AppColor.background,
-          hintText: '0.0',
-          hintStyle: kTextSize40BoldWhite,
-          border: InputBorder.none),
+  Widget _moneyTextField(BuildContext context, NewSpendingBloc bloc) {
+    return Row(
+      children: [
+        BlocBuilder<NewSpendingBloc, NewSpendingState>(
+          builder: (context, state) => Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              GestureDetector(
+                onTap: () => _openSpendingType(context, bloc),
+                child: const CircleAvatar(
+                  radius: 30.0,
+                  child: Icon(
+                    Icons.save,
+                    size: 40.0,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 5.0,
+              ),
+              (state as NewSpendingInitial).spendingType == null
+                  ? const Padding(
+                      padding: EdgeInsets.only(bottom: 10.0),
+                      child: Text(''),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Text(state.spendingType?.title ?? ''),
+                    ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: TextField(
+            controller: bloc.moneyController,
+            style: kTextSize40BoldWhite,
+            keyboardType: TextInputType.number,
+            onChanged: (value) {
+              bloc.add(MoneyChange(money: value));
+            },
+            textAlign: TextAlign.end,
+            decoration: const InputDecoration(
+              filled: true,
+              fillColor: AppColor.background,
+              hintText: '0.0',
+              hintStyle: kTextSize40BoldWhite,
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -126,9 +165,9 @@ class NewSpendingView extends StatelessWidget {
     );
   }
 
-  Widget _type(BuildContext context) {
+  Widget _type(BuildContext context, NewSpendingBloc bloc) {
     return InkWell(
-      onTap: () => _openNewLookBook(context),
+      onTap: () => _openSpendingType(context, bloc),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: Row(
@@ -255,11 +294,8 @@ class NewSpendingView extends StatelessWidget {
     Tab(text: 'Thu nhập'),
   ];
 
-  _onSelectedTemplate(template) {
-      // print(template);
-    }
-    
-  _openNewLookBook(BuildContext context) {
-    TypeModalBS.show(context,_onSelectedTemplate);
+  _openSpendingType(BuildContext context, NewSpendingBloc bloc) async {
+    SpendingModel? model = await TypeModalBS.show(context);
+    bloc.add(PickSpendingType(spendingModel: model));
   }
 }

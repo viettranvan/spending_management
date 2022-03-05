@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import '../mockdata/spending_data.dart';
-import '../model/spending.dart';
+import '../../../../models/spending_model.dart';
 
 part 'spending_event.dart';
 part 'spending_state.dart';

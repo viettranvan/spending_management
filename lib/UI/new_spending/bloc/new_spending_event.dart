@@ -14,3 +14,9 @@ class PickDate extends NewSpendingEvent {
 
   PickDate({required this.date});
 }
+
+class PickSpendingType extends NewSpendingEvent {
+  final SpendingModel? spendingModel;
+
+  PickSpendingType({required this.spendingModel});
+}

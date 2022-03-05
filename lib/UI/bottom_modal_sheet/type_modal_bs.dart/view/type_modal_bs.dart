@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:spending_management/utils/utils.dart';
 import 'dart:ui' as ct;
 
+import '../../../../models/spending_model.dart';
 import 'type_modal_bs_view.dart';
 
 class TypeModalBS extends StatefulWidget {
-  static show(BuildContext context, Function(String?) selectedCallback) {
-    showModalBottomSheet(
+  static Future<SpendingModel?> show(BuildContext context) async{
+     SpendingModel? result = await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
@@ -18,16 +19,14 @@ class TypeModalBS extends StatefulWidget {
               (MediaQueryData.fromWindow(ct.window).padding.top +
                   kToolbarHeight) -
               100,
-          child: TypeModalBS(
-            selectedCallback: selectedCallback,
-          ),
+          child: const TypeModalBS(),
         );
       },
     );
+    return result;
   }
 
-  final Function(String?) selectedCallback;
-  const TypeModalBS({Key? key, required this.selectedCallback})
+  const TypeModalBS({Key? key})
       : super(key: key);
 
   @override

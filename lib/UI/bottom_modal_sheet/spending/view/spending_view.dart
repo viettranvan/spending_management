@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spending_management/UI/bottom_modal_sheet/spending/bloc/spending_bloc.dart';
+import 'package:spending_management/models/spending_model.dart';
 import '../../widget/widget.dart';
 
 class SpendingView extends StatelessWidget {
@@ -14,6 +15,7 @@ class SpendingView extends StatelessWidget {
       return BlocBuilder<SpendingBloc,SpendingState>(
         builder:(context, state) =>  GestureDetector(
           onTap: () {
+            Navigator.of(context).pop<SpendingModel>((state as SpendingInitial).lists[index]);
           },
           child: TypeItem(
             iconPath:
