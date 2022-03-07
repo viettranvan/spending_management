@@ -72,15 +72,17 @@ class HomeView extends StatelessWidget {
                   return SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (_, int index) {
-                        return ListTile(
-                          leading: Container(
-                              padding: EdgeInsets.all(8),
-                              width: 100,
-                              child: Placeholder()),
-                          title: Text('Place ${index + 1}', textScaleFactor: 2),
+                        return HomeSpendingItem(
+                          date: state.lists[index].date,
+                          preDate: index > 0 ? state.lists[index-1].date : '',
+                          iconPath: '',
+                          money: state.lists[index].money,
+                          note: state.lists[index].note,
+                          type: state.lists[index].type,
+                          typeItem:state.lists[index].typeItem,
                         );
                       },
-                      childCount: 20,
+                      childCount: state.lists.length,
                     ),
                   );
                 }
@@ -92,6 +94,68 @@ class HomeView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class HomeSpendingItem extends StatelessWidget {
+  const HomeSpendingItem({
+    Key? key,
+    required this.typeItem,
+    required this.type,
+    required this.note,
+    required this.date,
+    required this.iconPath,
+    required this.money,
+    required this.preDate,
+  }) : super(key: key);
+
+  final String typeItem;
+  final String note;
+  final String iconPath;
+  final int money;
+  final String type;
+  final String date;
+  final String preDate;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Visibility(
+          visible: date != preDate,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(date, style: kTextSize20w400White),
+          ),
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: ListTile(
+                leading: const CircleAvatar(
+                  radius: 30.0,
+                  child: FlutterLogo(
+                    size: 30.0,
+                  ),
+                ),
+                title: Text(typeItem, style: kTextSize18w400White),
+                subtitle: Text(note.isEmpty ? 'Không có ghi chú' : note,
+                    style: kTextSize15w400White),
+                isThreeLine: true,
+              ),
+            ),
+            Row(
+              children: [
+                Text(type == 'spending' ? '-' : '+',
+                    style: kTextSize18w400White),
+                Text(money.toString(), style: kTextSize18w400White),
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

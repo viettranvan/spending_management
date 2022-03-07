@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:spending_management/models/home_spending.dart';
 
+import '../../../utils/utils.dart';
+
 part 'home_event.dart';
 part 'home_state.dart';
 
@@ -25,7 +27,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           .get()
           .then((QuerySnapshot querySnapshot) {
         for (var doc in querySnapshot.docs) {
-          String date = '${DateTime.parse(doc['date'].toDate().toString())}';
+          String datetime = '${DateTime.parse(doc['date'].toDate().toString())}';
+          String date = datetime.substring(0,11);
           lists.add(HomeSpending(
             date: date,
             money: doc['money'],
