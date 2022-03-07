@@ -352,7 +352,8 @@ class NewSpendingView extends StatelessWidget {
           'money': money,
           'note': note,
           'type': type,
-          'type_item': title
+          'type_item': title,
+          'icon_path': state.spendingType!.iconPath
         };
         showDialog(
             context: context,
@@ -366,30 +367,5 @@ class NewSpendingView extends StatelessWidget {
             context, MainPage.id, (route) => false);
       }
     }
-
-    // var value = await spending.get();
-    // var list = value.docs;
-
-    // print('list: ${list.length}');
-    // print('item: ${list.first.data()}');
-
-    // FirebaseFirestore.instance
-    //     .collection('spending')
-    //     .orderBy('date', descending: true)
-    //     .get()
-    //     .then((QuerySnapshot querySnapshot) {
-    //   for (var doc in querySnapshot.docs) {
-    //     print(
-    //         'data: ${DateTime.parse(doc['date'].toDate().toString())} ---- ${doc['money']}');
-    //     // print('viet: ${doc['money']}');
-    //   }
-    // });
-
-    // for(var item in list){
-    //   print('item: ${item.data()}')
-    // }
-    // .then((value) {
-    //   print('abc: ${value.docs.length}');
-    // });
   }
 }

@@ -18,22 +18,33 @@ class HomeView extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            title: BlocBuilder<ProfileBloc, ProfileState>(
-              builder: (context, state) => TitleAppBar(
-                name: currentuser == null
-                    ? 'User'
-                    : currentuser.displayName ?? 'User',
-                imgPath: currentuser == null
-                    ? noProfileImage
-                    : currentuser.photoURL ?? noProfileImage,
-              ),
+            title: TitleAppBar(
+              name: currentuser == null
+                  ? 'User'
+                  : currentuser.displayName ?? 'User',
+              imgPath: currentuser == null
+                  ? noProfileImage
+                  : currentuser.photoURL ?? noProfileImage,
             ),
             pinned: true,
             floating: true,
-            expandedHeight: 230.0,
+            expandedHeight: 250.0,
             backgroundColor: AppColor.background,
-            flexibleSpace: const FlexibleSpaceBar(
-              background: MyFlexiableAppBar(),
+            flexibleSpace: FlexibleSpaceBar(
+              background: BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  if (state is HomeLoaded) {
+                    return MyFlexiableAppBar(
+                      totalSpent: formatMoney( state.totalSpent.toString()),
+                      totalEarn: formatMoney(  state.totalEarn.toString()),
+                      balance: formatMoney((state.totalEarn - state.totalSpent).toString()) ,
+                      endDate: state.lists.first.date,
+                      startDate: state.lists.last.date,
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
             ),
           ),
           BlocBuilder<HomeBloc, HomeState>(

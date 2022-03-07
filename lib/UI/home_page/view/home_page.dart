@@ -10,15 +10,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => HomeBloc()..add(HomeStarted()),
-        ),
-        BlocProvider(
-          create: (context) => ProfileBloc(),
-        )
-      ],
+    return BlocProvider(
+      create: (context) => HomeBloc()..add(HomeStarted()),
       child: const HomeView(),
     );
   }

@@ -20,13 +20,22 @@ class MainView extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           body: BlocBuilder<MainPageBloc, MainPageState>(
-            builder: (context, state){
-              if(state is HomePageState){
+            builder: (context, state) {
+              if (state is HomePageState) {
                 return const HomePage();
-              }else if(state is SettingPageState){
+              } else if (state is SettingPageState) {
                 return const ProfilePage();
               }
-              return const SizedBox();
+              return Center(
+                child: SizedBox(
+                  height: 50.0,
+                  width: 50.0,
+                  child: Image.asset(
+                    'assets/images/image_placeholder.gif',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
             },
           ),
           bottomNavigationBar: BottomNavigationBar(

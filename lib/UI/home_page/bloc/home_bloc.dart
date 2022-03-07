@@ -16,30 +16,47 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   _onFetchData(HomeStarted event, Emitter<HomeState> emit) async {
     try {
+
       var currentUser = FirebaseAuth.instance.currentUser;
       var spending = FirebaseFirestore.instance
           .collection('users')
           .doc(currentUser?.uid)
           .collection('spending');
       List<HomeSpending> lists = [];
+      int totalSpent = 0;
+      int toalEarn = 0;
       await spending
           .orderBy('date', descending: true)
           .get()
           .then((QuerySnapshot querySnapshot) {
         for (var doc in querySnapshot.docs) {
-          String datetime = '${DateTime.parse(doc['date'].toDate().toString())}';
-          String date = datetime.substring(0,11);
-          lists.add(HomeSpending(
-            date: date,
-            money: doc['money'],
-            note: doc['note'],
-            type: doc['type'],
-            typeItem: doc['type_item'],
-
-          ),);
+          String datetime =
+              '${DateTime.parse(doc['date'].toDate().toString())}';
+          String date = datetime.substring(0, 11);
+          lists.add(
+            HomeSpending(
+              date: date,
+              money: doc['money'],
+              note: doc['note'],
+              type: doc['type'],
+              typeItem: doc['type_item'],
+            ),
+          );
         }
       });
-      emit(HomeLoaded(lists: lists));
+
+      for (var item in lists) {
+
+        if (item.type == 'spending') {
+          totalSpent += int.parse(item.money.toString());
+
+        } else if (item.type == 'earning') {
+          toalEarn += int.parse(item.money.toString());
+        }
+      }
+
+      emit(HomeLoaded(
+          lists: lists, totalEarn: toalEarn, totalSpent: totalSpent));
     } catch (_) {}
   }
 
