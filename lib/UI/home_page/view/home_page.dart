@@ -1,6 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spending_management/UI/home_page/widgets/flexiable_app_bar.dart';
-import 'package:spending_management/utils/app_color.dart';
+import 'package:spending_management/utils/utils.dart';
 
 import '../widgets/title_app_bar.dart';
 
@@ -9,16 +10,24 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var currentuser = FirebaseAuth.instance.currentUser;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const SliverAppBar(
-            title: TitleAppBar(),
+          SliverAppBar(
+            title: TitleAppBar(
+              name: currentuser == null
+                  ? 'User'
+                  : currentuser.displayName ?? 'User',
+              imgPath: currentuser == null
+                  ? noProfileImage
+                  : currentuser.photoURL ?? noProfileImage,
+            ),
             pinned: true,
             floating: true,
             expandedHeight: 230.0,
             backgroundColor: AppColor.background,
-            flexibleSpace: FlexibleSpaceBar(
+            flexibleSpace: const FlexibleSpaceBar(
               background: MyFlexiableAppBar(),
             ),
           ),

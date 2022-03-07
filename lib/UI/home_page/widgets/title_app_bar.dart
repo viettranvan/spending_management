@@ -1,27 +1,34 @@
 import 'package:flutter/material.dart';
 
 class TitleAppBar extends StatelessWidget {
-
-  const TitleAppBar({Key? key}) : super(key: key);
+  const TitleAppBar({Key? key, required this.name, required this.imgPath})
+      : super(key: key);
+  final String name;
+  final String imgPath;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: const <Widget>[
+      children: <Widget>[
         CircleAvatar(
           radius: 25.0,
-          child: FlutterLogo(size: 30.0),
+          backgroundImage:
+          NetworkImage(
+            imgPath,
+          ),
+          
         ),
         Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Text(
-            'Name Here',
-            style: TextStyle(
-                color: Colors.white,  fontSize: 20.0),
+            name,
+            style: const TextStyle(color: Colors.white, fontSize: 20.0),
           ),
         ),
-        SizedBox(width: 50.0,),
+        const SizedBox(
+          width: 50.0,
+        ),
       ],
     );
   }

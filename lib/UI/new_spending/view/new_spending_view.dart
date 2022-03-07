@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spending_management/UI/main_page/view/main_page.dart';
@@ -314,8 +315,11 @@ class NewSpendingView extends StatelessWidget {
   }
 
   onSave(BuildContext context, NewSpendingBloc bloc) async {
-    CollectionReference spending =
-        FirebaseFirestore.instance.collection('spending');
+    var _auth = FirebaseAuth.instance;
+    var spending = FirebaseFirestore.instance
+        .collection('users')
+        .doc(_auth.currentUser?.uid)
+        .collection('spending');
 
     var state = bloc.state;
     if (state is NewSpendingInitial) {
@@ -328,7 +332,7 @@ class NewSpendingView extends StatelessWidget {
       String? title =
           state.spendingType == null ? null : state.spendingType!.title;
       String? type =
-          state.spendingType == null ? null : state.spendingType!.spendingType;  
+          state.spendingType == null ? null : state.spendingType!.spendingType;
       DateTime date = state.chooseDay ?? DateTime.now();
       String note = bloc.noteController.text;
 
@@ -350,12 +354,16 @@ class NewSpendingView extends StatelessWidget {
           'type': type,
           'type_item': title
         };
-        showDialog(context: context, builder: (context) => const LoadingDialog(),barrierDismissible: false);
+        showDialog(
+            context: context,
+            builder: (context) => const LoadingDialog(),
+            barrierDismissible: false);
         await spending.add(data);
         // close dialog
         Navigator.pop(context);
         // navigate to main page
-        Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(
+            context, MainPage.id, (route) => false);
       }
     }
 
