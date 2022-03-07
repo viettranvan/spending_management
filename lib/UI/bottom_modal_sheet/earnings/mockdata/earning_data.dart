@@ -1,9 +1,9 @@
-import 'package:spending_management/UI/bottom_modal_sheet/earnings/model/earning.dart';
+import 'package:spending_management/models/spending_model.dart';
 
-List<Earing> listEarning = [
-  Earing(iconPath: '', title: 'Lương'),
-  Earing(iconPath: '', title: 'Bán Hàng'),
-  Earing(iconPath: '', title: 'Cổ tức'),
-  Earing(iconPath: '', title: 'Thưởng'),
-  Earing(iconPath: '', title: 'Khác'),
+List<SpendingModel> listEarning = [
+  SpendingModel(iconPath: '', title: 'Lương'),
+  SpendingModel(iconPath: '', title: 'Bán Hàng'),
+  SpendingModel(iconPath: '', title: 'Cổ tức'),
+  SpendingModel(iconPath: '', title: 'Thưởng'),
+  SpendingModel(iconPath: '', title: 'Khác'),
 ];

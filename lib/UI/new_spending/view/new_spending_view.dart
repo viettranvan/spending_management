@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spending_management/UI/main_page/view/main_page.dart';
+import 'package:spending_management/components/dialog/loading_dialog.dart';
 import 'package:spending_management/models/spending_model.dart';
 import 'package:spending_management/utils/utils.dart';
 
@@ -11,8 +13,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // ignore: must_be_immutable
 class NewSpendingView extends StatelessWidget {
   NewSpendingView({Key? key}) : super(key: key);
-  CollectionReference test = FirebaseFirestore.instance.collection('test');
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,7 @@ class NewSpendingView extends StatelessWidget {
                           children: [
                             const Spacer(),
                             GestureDetector(
-                              onTap: onSave,
+                              onTap: () => onSave(context, bloc),
                               child: const CircleAvatar(
                                   radius: 30.0,
                                   child: Icon(
@@ -176,29 +176,37 @@ class NewSpendingView extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: Row(
-          children: const [
-            CircleAvatar(
+          children: [
+            const CircleAvatar(
               radius: 15.0,
               backgroundColor: Colors.amber,
               backgroundImage: NetworkImage(
                   'https://toigingiuvedep.vn/wp-content/uploads/2021/06/hinh-anh-anime-girl-deo-kinh-thoi-trang-tri-thuc-dep-nhat.jpg'),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15.0,
             ),
-            Text(
+            const Text(
               'Loại',
               style: kTextSize18w400White,
             ),
-            SizedBox(
+            const SizedBox(
               width: 15.0,
             ),
-            Text(
-              'Chọn mục',
-              style: kTextSize18w400White,
+            BlocBuilder<NewSpendingBloc, NewSpendingState>(
+              builder: (context, state) =>
+                  (state as NewSpendingInitial).spendingType == null
+                      ? const Text(
+                          'Chọn mục',
+                          style: kTextSize18w400White,
+                        )
+                      : Text(
+                          state.spendingType!.title ?? '',
+                          style: kTextSize18w400White,
+                        ),
             ),
-            Spacer(),
-            Icon(
+            const Spacer(),
+            const Icon(
               Icons.arrow_right,
               color: Colors.white,
             )
@@ -218,8 +226,10 @@ class NewSpendingView extends StatelessWidget {
           lastDate: DateTime(2100),
         );
 
-        var dateString = getDateString(date ?? DateTime.now());
-        context.read<NewSpendingBloc>().add(PickDate(date: dateString));
+        // var dateString = getDateString(date ?? DateTime.now());
+        context
+            .read<NewSpendingBloc>()
+            .add(PickDate(date: date ?? DateTime.now()));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -243,10 +253,9 @@ class NewSpendingView extends StatelessWidget {
             ),
             BlocBuilder<NewSpendingBloc, NewSpendingState>(
               builder: (context, state) => Text(
-                (state as NewSpendingInitial).chooseDay ??
-                    getDateString(
-                      DateTime.now(),
-                    ),
+                getDateString(
+                  (state as NewSpendingInitial).chooseDay ?? DateTime.now(),
+                ),
                 style: kTextSize18w400White,
               ),
             ),
@@ -304,9 +313,75 @@ class NewSpendingView extends StatelessWidget {
     bloc.add(PickSpendingType(spendingModel: model));
   }
 
-  onSave() {
-    test.get().then((value) {
-      print('abc: ${value.docs.first.data()}');
-    });
+  onSave(BuildContext context, NewSpendingBloc bloc) async {
+    CollectionReference spending =
+        FirebaseFirestore.instance.collection('spending');
+
+    var state = bloc.state;
+    if (state is NewSpendingInitial) {
+      String moneyString =
+          bloc.moneyController.text.isEmpty ? '0' : bloc.moneyController.text;
+      String validateMoney = moneyString.replaceAll(RegExp(r"\D"), "");
+
+      int money = int.parse(validateMoney.isEmpty ? '0' : validateMoney);
+
+      String? title =
+          state.spendingType == null ? null : state.spendingType!.title;
+      String? type =
+          state.spendingType == null ? null : state.spendingType!.spendingType;  
+      DateTime date = state.chooseDay ?? DateTime.now();
+      String note = bloc.noteController.text;
+
+      if (money <= 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Nhập số tiền!')),
+        );
+      } else if (title == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Chọn loại!')),
+        );
+      } else {
+        var now = DateTime.now();
+        var data = {
+          'date': DateTime(date.year, date.month, date.day, now.hour,
+              now.minute, now.second, now.microsecond),
+          'money': money,
+          'note': note,
+          'type': type,
+          'type_item': title
+        };
+        showDialog(context: context, builder: (context) => const LoadingDialog(),barrierDismissible: false);
+        await spending.add(data);
+        // close dialog
+        Navigator.pop(context);
+        // navigate to main page
+        Navigator.pushNamedAndRemoveUntil(context, MainPage.id, (route) => false);
+      }
+    }
+
+    // var value = await spending.get();
+    // var list = value.docs;
+
+    // print('list: ${list.length}');
+    // print('item: ${list.first.data()}');
+
+    // FirebaseFirestore.instance
+    //     .collection('spending')
+    //     .orderBy('date', descending: true)
+    //     .get()
+    //     .then((QuerySnapshot querySnapshot) {
+    //   for (var doc in querySnapshot.docs) {
+    //     print(
+    //         'data: ${DateTime.parse(doc['date'].toDate().toString())} ---- ${doc['money']}');
+    //     // print('viet: ${doc['money']}');
+    //   }
+    // });
+
+    // for(var item in list){
+    //   print('item: ${item.data()}')
+    // }
+    // .then((value) {
+    //   print('abc: ${value.docs.length}');
+    // });
   }
 }

@@ -10,7 +10,7 @@ class MoneyChange extends NewSpendingEvent {
 }
 
 class PickDate extends NewSpendingEvent {
-  final String date;
+  final DateTime date;
 
   PickDate({required this.date});
 }

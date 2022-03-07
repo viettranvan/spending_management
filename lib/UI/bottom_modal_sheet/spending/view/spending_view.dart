@@ -15,12 +15,18 @@ class SpendingView extends StatelessWidget {
       return BlocBuilder<SpendingBloc,SpendingState>(
         builder:(context, state) =>  GestureDetector(
           onTap: () {
-            Navigator.of(context).pop<SpendingModel>((state as SpendingInitial).lists[index]);
+            SpendingModel model = SpendingModel(
+              iconPath: (state as SpendingInitial).lists[index].iconPath,
+              title: state.lists[index].title,
+              spendingType: 'spending',
+            );
+            Navigator.of(context).pop<SpendingModel>(model);
           },
           child: TypeItem(
             iconPath:
                 'https://i.pinimg.com/originals/45/87/0c/45870c609864fdded4b8869276f57314.jpg',
             title: (state as SpendingInitial).lists[index].title ?? '',
+          
             // _onCategoryView(context),
           ),
         ),
