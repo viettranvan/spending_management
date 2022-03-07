@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spending_management/UI/home_page/bloc/home_bloc.dart';
 import 'package:spending_management/UI/home_page/widgets/flexiable_app_bar.dart';
+import 'package:spending_management/UI/profile_page/bloc/profile_bloc.dart';
 import 'package:spending_management/utils/utils.dart';
 
 import '../widgets/title_app_bar.dart';
@@ -17,13 +18,15 @@ class HomeView extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            title: TitleAppBar(
-              name: currentuser == null
-                  ? 'User'
-                  : currentuser.displayName ?? 'User',
-              imgPath: currentuser == null
-                  ? noProfileImage
-                  : currentuser.photoURL ?? noProfileImage,
+            title: BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) => TitleAppBar(
+                name: currentuser == null
+                    ? 'User'
+                    : currentuser.displayName ?? 'User',
+                imgPath: currentuser == null
+                    ? noProfileImage
+                    : currentuser.photoURL ?? noProfileImage,
+              ),
             ),
             pinned: true,
             floating: true,
@@ -74,12 +77,12 @@ class HomeView extends StatelessWidget {
                       (_, int index) {
                         return HomeSpendingItem(
                           date: state.lists[index].date,
-                          preDate: index > 0 ? state.lists[index-1].date : '',
+                          preDate: index > 0 ? state.lists[index - 1].date : '',
                           iconPath: '',
                           money: state.lists[index].money,
                           note: state.lists[index].note,
                           type: state.lists[index].type,
-                          typeItem:state.lists[index].typeItem,
+                          typeItem: state.lists[index].typeItem,
                         );
                       },
                       childCount: state.lists.length,
@@ -149,8 +152,13 @@ class HomeSpendingItem extends StatelessWidget {
             Row(
               children: [
                 Text(type == 'spending' ? '-' : '+',
-                    style: kTextSize18w400White),
-                Text(money.toString(), style: kTextSize18w400White),
+                    style: type == 'spending'
+                        ? kTextSize18w400Red
+                        : kTextSize18w400Green),
+                Text(formatMoney(money.toString()),
+                    style: type == 'spending'
+                        ? kTextSize18w400Red
+                        : kTextSize18w400Green),
               ],
             ),
           ],

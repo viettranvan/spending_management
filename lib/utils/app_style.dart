@@ -16,6 +16,9 @@ const kTextSize15w400Blue =
 const kTextSize18w400Red =
     TextStyle(color: AppColor.red, fontSize: 18, fontWeight: FontWeight.w400);
 
+    const kTextSize18w400Green =
+    TextStyle(color: AppColor.green, fontSize: 18, fontWeight: FontWeight.w400);
+
 const kTextSize18w400Blue =
     TextStyle(color: AppColor.blue, fontSize: 18, fontWeight: FontWeight.w400);
 

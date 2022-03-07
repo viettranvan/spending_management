@@ -42,4 +42,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeLoaded(lists: lists));
     } catch (_) {}
   }
+
+  @override
+  void onChange(Change<HomeState> change) {
+    print(change);
+    super.onChange(change);
+  }
 }

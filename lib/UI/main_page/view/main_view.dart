@@ -19,12 +19,15 @@ class MainView extends StatelessWidget {
     return BlocBuilder<MainPageBloc, MainPageState>(
       builder: (context, state) {
         return Scaffold(
-          body: IndexedStack(
-            index: state.indexOfIndexedStack,
-            children: const [
-              HomePage(),
-              ProfilePage(),
-            ],
+          body: BlocBuilder<MainPageBloc, MainPageState>(
+            builder: (context, state){
+              if(state is HomePageState){
+                return const HomePage();
+              }else if(state is SettingPageState){
+                return const ProfilePage();
+              }
+              return const SizedBox();
+            },
           ),
           bottomNavigationBar: BottomNavigationBar(
             items: getItems(),
