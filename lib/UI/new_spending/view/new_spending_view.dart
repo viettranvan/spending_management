@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spending_management/UI/bottom_modal_sheet/type_modal_bs.dart/bloc/type_bloc.dart';
 import 'package:spending_management/models/spending_model.dart';
 import 'package:spending_management/utils/utils.dart';
 
 import '../../bottom_modal_sheet/type_modal_bs.dart/view/type_modal_bs.dart';
 import '../bloc/new_spending_bloc.dart';
 import '../widgets/divider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // ignore: must_be_immutable
 class NewSpendingView extends StatelessWidget {
   NewSpendingView({Key? key}) : super(key: key);
+  CollectionReference test = FirebaseFirestore.instance.collection('test');
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -75,14 +77,17 @@ class NewSpendingView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 15.0),
                         child: Row(
-                          children: const [
-                            Spacer(),
-                            CircleAvatar(
-                                radius: 30.0,
-                                child: Icon(
-                                  Icons.save,
-                                  size: 40.0,
-                                )),
+                          children: [
+                            const Spacer(),
+                            GestureDetector(
+                              onTap: onSave,
+                              child: const CircleAvatar(
+                                  radius: 30.0,
+                                  child: Icon(
+                                    Icons.save,
+                                    size: 40.0,
+                                  )),
+                            ),
                             SizedBox(width: 25.0),
                           ],
                         ),
@@ -297,5 +302,11 @@ class NewSpendingView extends StatelessWidget {
   _openSpendingType(BuildContext context, NewSpendingBloc bloc) async {
     SpendingModel? model = await TypeModalBS.show(context);
     bloc.add(PickSpendingType(spendingModel: model));
+  }
+
+  onSave() {
+    test.get().then((value) {
+      print('abc: ${value.docs.first.data()}');
+    });
   }
 }
