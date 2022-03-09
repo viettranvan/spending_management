@@ -11,9 +11,8 @@ class SpendingView extends StatelessWidget {
   Widget build(BuildContext context) {
     // var bloc = context.read<SpendingBloc>();
     Widget itemBuilder(BuildContext context, int index) {
-        
-      return BlocBuilder<SpendingBloc,SpendingState>(
-        builder:(context, state) =>  GestureDetector(
+      return BlocBuilder<SpendingBloc, SpendingState>(
+        builder: (context, state) => GestureDetector(
           onTap: () {
             SpendingModel model = SpendingModel(
               iconPath: (state as SpendingInitial).lists[index].iconPath,
@@ -23,10 +22,9 @@ class SpendingView extends StatelessWidget {
             Navigator.of(context).pop<SpendingModel>(model);
           },
           child: TypeItem(
-            iconPath:
-                'https://i.pinimg.com/originals/45/87/0c/45870c609864fdded4b8869276f57314.jpg',
-            title: (state as SpendingInitial).lists[index].title ?? '',
-          
+            iconPath: (state as SpendingInitial).lists[index].iconPath ?? 'assets/iamges/another_icon.png',
+            title: state.lists[index].title ?? '',
+
             // _onCategoryView(context),
           ),
         ),
@@ -40,10 +38,10 @@ class SpendingView extends StatelessWidget {
             height: 10.0,
           ),
           SearchBar(
-            hintText: 'Search elements',
-            controller: context.read<SpendingBloc>().searchController,
-            onChangeText: ()=>context.read<SpendingBloc>().add(SearchSpending())
-          ),
+              hintText: 'Search elements',
+              controller: context.read<SpendingBloc>().searchController,
+              onChangeText: () =>
+                  context.read<SpendingBloc>().add(SearchSpending())),
           const SizedBox(
             height: 10.0,
           ),

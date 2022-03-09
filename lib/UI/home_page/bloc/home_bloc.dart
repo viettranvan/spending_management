@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:spending_management/models/home_spending.dart';
 
-import '../../../utils/utils.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -40,6 +39,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               note: doc['note'],
               type: doc['type'],
               typeItem: doc['type_item'],
+              iconPath: doc['icon_path']
             ),
           );
         }

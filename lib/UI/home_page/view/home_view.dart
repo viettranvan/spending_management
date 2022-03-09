@@ -42,7 +42,13 @@ class HomeView extends StatelessWidget {
                       startDate: state.lists.last.date,
                     );
                   }
-                  return const SizedBox();
+                  return MyFlexiableAppBar(
+                      totalSpent: formatMoney('0'),
+                      totalEarn: formatMoney('0'),
+                      balance: formatMoney('0'),
+                      endDate: '',
+                      startDate: '',
+                    );
                 },
               ),
             ),

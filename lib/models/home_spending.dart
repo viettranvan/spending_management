@@ -4,6 +4,7 @@ class HomeSpending {
   int money;
   String typeItem;
   String type;
+  String iconPath;
 
   HomeSpending({
     required this.date,
@@ -11,5 +12,6 @@ class HomeSpending {
     required this.note,
     required this.type,
     required this.typeItem,
+    required this.iconPath
   });
 }

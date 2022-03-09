@@ -49,7 +49,7 @@ class ProfileView extends StatelessWidget {
       }
     }
 
-    void onUpdateProfile() {
+    void onUpdateProfile() async {
       showDialog(
               barrierDismissible: false,
               context: context,

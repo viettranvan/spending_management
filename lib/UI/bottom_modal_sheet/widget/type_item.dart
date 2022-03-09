@@ -18,7 +18,8 @@ class TypeItem extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 20.0,
-          backgroundImage: NetworkImage(iconPath),
+          backgroundColor: Colors.white,
+          backgroundImage: AssetImage(iconPath),
         ),
         const SizedBox(
           width: 10.0,
