@@ -12,6 +12,6 @@ class HomePageState extends MainPageState {
 }
 
 class SettingPageState extends MainPageState {
-  const SettingPageState() : super(1,2);
+  const SettingPageState() : super(1,1);
 }
 

@@ -38,24 +38,63 @@ class MainView extends StatelessWidget {
               );
             },
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: getItems(),
-            currentIndex: state.indexOfBottomNavigationBar,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            backgroundColor: AppColor.background,
-            type: BottomNavigationBarType.fixed,
-            onTap: (index) {
-              switch (index) {
-                case 1:
-                  gotoNewSpending(context);
-                  break;
-                default:
-                  BlocProvider.of<MainPageBloc>(context)
-                      .add(OnChangeTab(index: index));
-              }
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              gotoNewSpending(context);
             },
+            elevation: 5.0,
+            highlightElevation: 5.0,
+            child: const Icon(Icons.add),
           ),
+          bottomNavigationBar: 
+          
+          BottomAppBar(
+            shape: const CircularNotchedRectangle(),
+            notchMargin: 10.0,
+            child: SizedBox(
+              height: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children:  [
+                  GestureDetector(
+                    onTap: () => BlocProvider.of<MainPageBloc>(context)
+                      .add(OnChangeTab(index: 0)),
+                    child:  Expanded(
+                      child: Icon(
+                        Icons.home,
+                        size: state.indexOfBottomNavigationBar == 0 ? 45.0 : 35,
+                        color: state.indexOfBottomNavigationBar == 0 ? Colors.red : Colors.white,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => BlocProvider.of<MainPageBloc>(context)
+                    .add(OnChangeTab(index: 1)),
+                    child:  Icon(
+                      Icons.person,
+                      size: state.indexOfBottomNavigationBar == 1 ? 45.0 : 35,
+                        color: state.indexOfBottomNavigationBar == 1 ? Colors.red : Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // BottomNavigationBar(
+          //   items: getItems(),
+          //   currentIndex: state.indexOfBottomNavigationBar,
+          //   showSelectedLabels: false,
+          //   showUnselectedLabels: false,
+          //   backgroundColor: AppColor.black25,
+          //   type: BottomNavigationBarType.fixed,
+          //   onTap: (index) {
+          //     BlocProvider.of<MainPageBloc>(context)
+          //             .add(OnChangeTab(index: index));
+          //   },
+          // ),
         );
       },
     );
@@ -74,21 +113,11 @@ class MainView extends StatelessWidget {
         ),
         const BottomNavigationBarItem(
           activeIcon: Icon(
-            Icons.add,
+            Icons.person,
             size: 35.0,
             color: Colors.red,
           ),
-          icon: Icon(Icons.add, size: 35.0, color: Colors.white),
-          label: '',
-          tooltip: '',
-        ),
-        const BottomNavigationBarItem(
-          activeIcon: Icon(
-            Icons.settings,
-            size: 35.0,
-            color: Colors.red,
-          ),
-          icon: Icon(Icons.settings, size: 35.0, color: Colors.white),
+          icon: Icon(Icons.person, size: 35.0, color: Colors.white),
           label: '',
           tooltip: '',
         ),
