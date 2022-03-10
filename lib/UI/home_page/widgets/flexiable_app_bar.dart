@@ -26,7 +26,7 @@ class MyFlexiableAppBar extends StatelessWidget {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
     return Container(
       padding: EdgeInsets.only(top: statusBarHeight),
-      height: statusBarHeight + appBarHeight +100,
+      height: statusBarHeight + appBarHeight + 100,
       decoration: const BoxDecoration(
           image: DecorationImage(
         image: NetworkImage(
