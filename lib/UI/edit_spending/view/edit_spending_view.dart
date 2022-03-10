@@ -8,12 +8,13 @@ import '../../../components/components.dart';
 import '../../bottom_modal_sheet/type_modal_bs.dart/view/type_modal_bs.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../main_page/view/main_page.dart';
 import '../bloc/edit_spending_bloc.dart';
+import 'package:marquee/marquee.dart';
 
 // ignore: must_be_immutable
 class EditSpendingView extends StatelessWidget {
   EditSpendingView({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class EditSpendingView extends StatelessWidget {
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Image.asset(
-            'assets/images/back_icon.jpg',
+            'assets/images/icon_back.png',
             color: Colors.white,
           ),
         ),
@@ -44,66 +45,102 @@ class EditSpendingView extends StatelessWidget {
               height: 30.0,
             ),
             BlocBuilder<EditSpendingBloc, EditSpendingState>(
-              
               builder: (context, state) {
-                if(state is DataLoaded){
-                  print('value: ${state.homeSpending.typeItem}');
+                if (state is DataLoaded) {
+                  return Container(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    decoration: BoxDecoration(
+                      color: AppColor.background,
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _moneyTextField(context, bloc),
+                        _moneyValue(state),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          decoration: const BoxDecoration(
+                              color: AppColor.grey,
+                              border: Border(
+                                top:
+                                    BorderSide(width: 1.5, color: Colors.white),
+                              )),
+                          child: Column(
+                            children: [
+                              _type(context, bloc),
+                              const CustomDivider(),
+                              _time(context),
+                              const CustomDivider(),
+                              _note(bloc),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20.0),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 15.0),
+                          child: Row(
+                            children: [
+                              const Spacer(),
+                              Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () => onEdit(context, bloc),
+                                    child: Container(
+                                      height: 60.0,
+                                      width: 60.0,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(60.0),
+                                          color: Colors.white,
+                                          image: const DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/images/edit_icon.png'),
+                                              fit: BoxFit.fill)),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5.0),
+                                  const Text(
+                                    'Cập nhật',
+                                    style: kTextSize15w400White,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 20.0),
+                              Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () => onDelete(context, bloc),
+                                    child: Container(
+                                      height: 60.0,
+                                      width: 60.0,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(60.0),
+                                          color: Colors.white,
+                                          image: const DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/images/delete_icon.png'),
+                                              fit: BoxFit.fill)),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5.0),
+                                  const Text(
+                                    'Xóa',
+                                    style: kTextSize15w400White,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 25.0),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
                 }
-                return Container(
-                  padding: const EdgeInsets.only(top: 30.0),
-                  decoration: BoxDecoration(
-                    color: AppColor.background,
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _moneyTextField(context, bloc),
-                      // _moneyValue(state),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        decoration: const BoxDecoration(
-                            color: AppColor.grey,
-                            border: Border(
-                              top: BorderSide(width: 1.5, color: Colors.white),
-                            )),
-                        child: Column(
-                          children: [
-                            _type(context, bloc),
-                            const CustomDivider(),
-                            _time(context),
-                            const CustomDivider(),
-                            _note(bloc),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 20.0),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 15.0),
-                        child: Row(
-                          children: [
-                            const Spacer(),
-                            GestureDetector(
-                                onTap: () => onSave(context, bloc),
-                                child: Container(
-                                  height: 60.0,
-                                  width: 60.0,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(60.0),
-                                      color: Colors.white,
-                                      image: const DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/save_icon.png'),
-                                          fit: BoxFit.fill)),
-                                )),
-                            const SizedBox(width: 25.0),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+                return const SizedBox();
               },
             ),
           ],
@@ -128,22 +165,26 @@ class EditSpendingView extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(60.0),
                         color: Colors.white,
-                        image: const DecorationImage(
-                            image: AssetImage('assets/images/save_icon.png'),
+                        image: DecorationImage(
+                            image: (state as DataLoaded).spendingType == null
+                                ? AssetImage(state.homeSpending?.iconPath ??
+                                    'assets/images/another_icon.png')
+                                : AssetImage(state.spendingType?.iconPath ??
+                                    'assets/images/another_icon.png'),
                             fit: BoxFit.fill)),
                   )),
               const SizedBox(
                 width: 5.0,
               ),
-              // state.spendingType == null
-              //     ? const Padding(
-              //         padding: EdgeInsets.only(bottom: 10.0),
-              //         child: Text(''),
-              //       )
-              //     : Padding(
-              //         padding: const EdgeInsets.only(bottom: 10.0),
-              //         child: Text(state.spendingType?.title ?? ''),
-              //       ),
+              state.spendingType == null
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Text(state.homeSpending?.typeItem ?? ''),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Text(state.spendingType?.title ?? ''),
+                    ),
             ],
           ),
         ),
@@ -153,7 +194,7 @@ class EditSpendingView extends StatelessWidget {
             style: kTextSize40BoldWhite,
             keyboardType: TextInputType.number,
             onChanged: (value) {
-              // bloc.add(MoneyChange(money: value));
+              bloc.add(MoneyChange(money: value));
             },
             textAlign: TextAlign.end,
             decoration: const InputDecoration(
@@ -169,18 +210,19 @@ class EditSpendingView extends StatelessWidget {
     );
   }
 
-  // Widget _moneyValue(EditSpendingState state) {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-  //     child: Visibility(
-  //       visible: (state as EditSpendingInitial).money.isNotEmpty,
-  //       child: Text(
-  //         formatMoney(state.money),
-  //         style: kTextSize20w400White,
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget _moneyValue(EditSpendingState state) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Visibility(
+        visible: (state as DataLoaded).money?.isNotEmpty ?? true,
+        child: Text(
+          formatMoney(
+              state.money ?? (state.homeSpending?.money.toString() ?? '')),
+          style: kTextSize20w400White,
+        ),
+      ),
+    );
+  }
 
   Widget _type(BuildContext context, EditSpendingBloc bloc) {
     return InkWell(
@@ -192,11 +234,7 @@ class EditSpendingView extends StatelessWidget {
             const CircleAvatar(
                 radius: 15.0,
                 backgroundColor: Colors.white,
-                backgroundImage: AssetImage('assets/images/type_icon.jpg')
-
-                // NetworkImage(
-                //     'https://toigingiuvedep.vn/wp-content/uploads/2021/06/hinh-anh-anime-girl-deo-kinh-thoi-trang-tri-thuc-dep-nhat.jpg'),
-                ),
+                backgroundImage: AssetImage('assets/images/type_icon.jpg')),
             const SizedBox(
               width: 15.0,
             ),
@@ -208,20 +246,17 @@ class EditSpendingView extends StatelessWidget {
               width: 15.0,
             ),
             BlocBuilder<EditSpendingBloc, EditSpendingState>(
-                builder: (context, state) => const Text(
-                      'Chọn mục',
-                      style: kTextSize18w400White,
-                    )
-                // (state as EditSpendingInitial).spendingType == null
-                //     ? const Text(
-                //         'Chọn mục',
-                //         style: kTextSize18w400White,
-                //       )
-                //     : Text(
-                //         state.spendingType!.title ?? '',
-                //         style: kTextSize18w400White,
-                //       ),
-                ),
+              builder: (context, state) =>
+                  (state as DataLoaded).spendingType == null
+                      ? Text(
+                          state.homeSpending?.typeItem ?? '',
+                          style: kTextSize18w400White,
+                        )
+                      : Text(
+                          state.spendingType!.title ?? '',
+                          style: kTextSize18w400White,
+                        ),
+            ),
             const Spacer(),
             const Icon(
               Icons.arrow_right,
@@ -243,10 +278,10 @@ class EditSpendingView extends StatelessWidget {
           lastDate: DateTime(2100),
         );
 
-        // var dateString = getDateString(date ?? DateTime.now());
-        // context
-        //     .read<NewSpendingBloc>()
-        //     .add(PickDate(date: date ?? DateTime.now()));
+        var dateString = getDateString(date ?? DateTime.now());
+        context
+            .read<EditSpendingBloc>()
+            .add(PickDate(date: date ?? DateTime.now()));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -271,13 +306,26 @@ class EditSpendingView extends StatelessWidget {
               width: 15.0,
             ),
             BlocBuilder<EditSpendingBloc, EditSpendingState>(
-              builder: (context, state) => Text(
-                getDateString(DateTime.now()
-                    // (state as EditSpendingInitial).chooseDay ?? DateTime.now(),
-                    ),
-                style: kTextSize18w400White,
-              ),
-            ),
+                builder: (context, state) {
+              DateTime now = DateTime.now();
+              var dState = (state as DataLoaded).homeSpending?.date;
+              int year =
+                  int.parse(dState?.substring(0, 4) ?? now.year.toString());
+              int month =
+                  int.parse(dState?.substring(5, 7) ?? now.year.toString());
+              int day =
+                  int.parse(dState?.substring(8, 10) ?? now.year.toString());
+
+              DateTime dt = DateTime(year, month, day);
+              return Expanded(
+                child: Text(
+                  getDateString(
+                    state.chooseDay ?? dt,
+                  ),
+                  style: kTextSize18w400White,
+                ),
+              );
+            }),
             const Spacer(),
             const Icon(
               Icons.arrow_right,
@@ -297,11 +345,7 @@ class EditSpendingView extends StatelessWidget {
           const CircleAvatar(
               radius: 15.0,
               backgroundColor: Colors.white,
-              backgroundImage: AssetImage('assets/images/note_icon.png')
-
-              // NetworkImage(
-              //     'https://toigingiuvedep.vn/wp-content/uploads/2021/06/hinh-anh-anime-girl-deo-kinh-thoi-trang-tri-thuc-dep-nhat.jpg'),
-              ),
+              backgroundImage: AssetImage('assets/images/note_icon.png')),
           const SizedBox(
             width: 15.0,
           ),
@@ -331,75 +375,105 @@ class EditSpendingView extends StatelessWidget {
 
   _openSpendingType(BuildContext context, EditSpendingBloc bloc) async {
     SpendingModel? model = await TypeModalBS.show(context);
-    // bloc.add(PickSpendingType(spendingModel: model));
+    bloc.add(PickSpendingType(spendingModel: model));
   }
 
-  onSave(BuildContext context, EditSpendingBloc bloc) async {
+  onEdit(BuildContext context, EditSpendingBloc bloc) {
     var _auth = FirebaseAuth.instance;
 
     var spending = FirebaseFirestore.instance
         .collection('users')
         .doc(_auth.currentUser?.uid)
         .collection('spending');
+    var state = bloc.state;
+    if (state is DataLoaded) {
+      DateTime now = DateTime.now();
+      var dState = state.homeSpending?.date;
+      int year = int.parse(dState?.substring(0, 4) ?? now.year.toString());
+      int month = int.parse(dState?.substring(5, 7) ?? now.year.toString());
+      int day = int.parse(dState?.substring(8, 10) ?? now.year.toString());
+      DateTime dt = DateTime(year, month, day);
 
-    // spending.doc('t4dJ6V5KNsuvH2nRP5hk').get().then(
-    //   (value) {
-    //     print('value: ${value.data()?['date']}');
-    //   },
-    // );
+      String moneyString = bloc.moneyController.text.isEmpty
+          ? state.homeSpending?.money.toString() ?? '0'
+          : bloc.moneyController.text;
+      String validateMoney = moneyString.replaceAll(RegExp(r"\D"), "");
 
-      spending.doc('lnklV3wYgUcj7skOwqj2').update({'id' : '123'});
-    // spending.where('id', isEqualTo: '-').get().then((item) {
-    //   try{
-    //     item.docs[0].data().update('id', (_) => '123');
-    //     print('done');
-    //   }catch(_){}
-    // });
-    // var state = bloc.state;
-    // if (state is EditSpendingInitial) {
-    //   String moneyString =
-    //       bloc.moneyController.text.isEmpty ? '0' : bloc.moneyController.text;
-    //   String validateMoney = moneyString.replaceAll(RegExp(r"\D"), "");
+      int money = int.parse(validateMoney.isEmpty ? '0' : validateMoney);
 
-    //   int money = int.parse(validateMoney.isEmpty ? '0' : validateMoney);
+      String? title = state.spendingType == null
+          ? state.homeSpending?.typeItem
+          : state.spendingType!.title;
+      String? type = state.spendingType == null
+          ? state.homeSpending?.type
+          : state.spendingType!.spendingType;
+      DateTime date = state.chooseDay ?? dt;
+      String note = bloc.noteController.text;
+      String iconPath = state.spendingType == null
+          ? (state.homeSpending?.iconPath ?? 'assets/image/another_icon.png')
+          : state.spendingType?.iconPath ?? 'assets/image/another_icon.png';
+      String itemId = state.homeSpending!.id;
 
-    //   String? title =
-    //       state.spendingType == null ? null : state.spendingType!.title;
-    //   String? type =
-    //       state.spendingType == null ? null : state.spendingType!.spendingType;
-    //   DateTime date = state.chooseDay ?? DateTime.now();
-    //   String note = bloc.noteController.text;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => CustomDialog(
+          title: 'Thông báo',
+          content: 'Bạn có muốn cập nhật?',
+          onSubmit: () async {
+            await spending.doc(itemId).update({
+              'date': DateTime(date.year, date.month, date.day, now.hour,
+                  now.minute, now.second, now.microsecond),
+              'note': note,
+              'type': type,
+              'type_item': title,
+              'money': money,
+              'icon_path': iconPath,
+            });
+            // close dialog
+            Navigator.pop(context);
+            // navigate to main page
+            Navigator.pushNamedAndRemoveUntil(
+                context, MainPage.id, (route) => false);
 
-    //   if (money <= 0) {
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       const SnackBar(content: Text('Nhập số tiền!')),
-    //     );
-    //   } else if (title == null) {
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       const SnackBar(content: Text('Chọn loại!')),
-    //     );
-    //   } else {
-    //     var now = DateTime.now();
-    //     var data = {
-    //       'date': DateTime(date.year, date.month, date.day, now.hour,
-    //           now.minute, now.second, now.microsecond),
-    //       'money': money,
-    //       'note': note,
-    //       'type': type,
-    //       'type_item': title,
-    //       'icon_path': state.spendingType!.iconPath
-    //     };
-    //     showDialog(
-    //         context: context,
-    //         builder: (context) => const LoadingDialog(),
-    //         barrierDismissible: false);
-    // await spending.add(data);
-    //     // close dialog
-    //     Navigator.pop(context);
-    //     // navigate to main page
-    //     Navigator.pushNamedAndRemoveUntil(
-    //         context, MainPage.id, (route) => false);
-    //   }
-    // }
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text('Dữ liệu của bạn đã được cập nhật!')));
+          },
+        ),
+      );
+    }
+  }
+
+  onDelete(BuildContext context, EditSpendingBloc bloc) async {
+    var _auth = FirebaseAuth.instance;
+
+    var spending = FirebaseFirestore.instance
+        .collection('users')
+        .doc(_auth.currentUser?.uid)
+        .collection('spending');
+    var state = bloc.state;
+    if (state is DataLoaded) {
+      var itemId = state.homeSpending!.id;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => CustomDialog(
+          title: 'Thông báo',
+          content: 'Bạn có muốn xóa không?',
+          onSubmit: () async {
+            await spending.doc(itemId).delete();
+            // close dialog
+            Navigator.pop(context);
+            // navigate to main page
+            Navigator.pushNamedAndRemoveUntil(
+                context, MainPage.id, (route) => false);
+
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text('Dữ liệu của bạn đã được cập nhật!')));
+          },
+        ),
+      );
+      
+    }
   }
 }
