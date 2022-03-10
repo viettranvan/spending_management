@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spending_management/UI/home_page/widgets/home_spending_item.dart';
 
 import '../bloc/edit_spending_bloc.dart';
 import 'edit_spending_view.dart';
@@ -11,8 +12,10 @@ class EditSpendingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final args = ModalRoute.of(context)?.settings.arguments as Map;
     return BlocProvider(
-      create: (context) => EditSpendingBloc(),
+      create: (context) => EditSpendingBloc()..add(FetchedData(itemId: args['itemId'])),
       child:  EditSpendingView(),
     );
   }

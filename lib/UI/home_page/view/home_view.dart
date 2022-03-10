@@ -23,7 +23,10 @@ class HomeView extends StatelessWidget {
         type: state.lists[index].type,
         typeItem: state.lists[index].typeItem,
         onTap: () {
-          Navigator.of(context).pushNamed(EditSpendingPage.id);
+          Navigator.of(context).pushNamed(
+            EditSpendingPage.id,
+            arguments: {'itemId': state.lists[index].id},
+          );
         },
       );
     }

@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spending_management/UI/main_page/view/main_page.dart';
-import 'package:spending_management/components/dialog/loading_dialog.dart';
 import 'package:spending_management/models/spending_model.dart';
 import 'package:spending_management/utils/utils.dart';
 
@@ -364,6 +363,7 @@ class NewSpendingView extends StatelessWidget {
       } else {
         var now = DateTime.now();
         var data = {
+          'id': '',
           'date': DateTime(date.year, date.month, date.day, now.hour,
               now.minute, now.second, now.microsecond),
           'money': money,
@@ -376,7 +376,10 @@ class NewSpendingView extends StatelessWidget {
             context: context,
             builder: (context) => const LoadingDialog(),
             barrierDismissible: false);
-        await spending.add(data);
+        
+        await spending.add(data).then((value){
+          spending.doc(value.id).update({'id': value.id});
+        });
         // close dialog
         Navigator.pop(context);
         // navigate to main page

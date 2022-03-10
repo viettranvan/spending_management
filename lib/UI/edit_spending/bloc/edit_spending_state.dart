@@ -4,3 +4,8 @@ part of 'edit_spending_bloc.dart';
 abstract class EditSpendingState {}
 
 class EditSpendingInitial extends EditSpendingState {}
+
+class DataLoaded extends EditSpendingState{
+  final HomeSpending homeSpending;
+  DataLoaded({required this.homeSpending});
+}

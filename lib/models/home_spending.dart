@@ -1,4 +1,5 @@
 class HomeSpending {
+  String id;
   String date;
   String note;
   int money;
@@ -7,6 +8,7 @@ class HomeSpending {
   String iconPath;
 
   HomeSpending({
+    required this.id,
     required this.date,
     required this.money,
     required this.note,

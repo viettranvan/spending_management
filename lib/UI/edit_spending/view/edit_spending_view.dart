@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spending_management/UI/main_page/view/main_page.dart';
-import 'package:spending_management/components/dialog/loading_dialog.dart';
 import 'package:spending_management/models/spending_model.dart';
 import 'package:spending_management/utils/utils.dart';
 
@@ -15,6 +13,7 @@ import '../bloc/edit_spending_bloc.dart';
 // ignore: must_be_immutable
 class EditSpendingView extends StatelessWidget {
   EditSpendingView({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,11 @@ class EditSpendingView extends StatelessWidget {
               height: 30.0,
             ),
             BlocBuilder<EditSpendingBloc, EditSpendingState>(
+              
               builder: (context, state) {
+                if(state is DataLoaded){
+                  print('value: ${state.homeSpending.typeItem}');
+                }
                 return Container(
                   padding: const EdgeInsets.only(top: 30.0),
                   decoration: BoxDecoration(
@@ -126,8 +129,7 @@ class EditSpendingView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(60.0),
                         color: Colors.white,
                         image: const DecorationImage(
-                            image: AssetImage(
-                                'assets/images/save_icon.png'),
+                            image: AssetImage('assets/images/save_icon.png'),
                             fit: BoxFit.fill)),
                   )),
               const SizedBox(
@@ -206,21 +208,20 @@ class EditSpendingView extends StatelessWidget {
               width: 15.0,
             ),
             BlocBuilder<EditSpendingBloc, EditSpendingState>(
-              builder: (context, state) =>
-              const Text(
-                          'Chọn mục',
-                          style: kTextSize18w400White,
-                        )
-                  // (state as EditSpendingInitial).spendingType == null
-                  //     ? const Text(
-                  //         'Chọn mục',
-                  //         style: kTextSize18w400White,
-                  //       )
-                  //     : Text(
-                  //         state.spendingType!.title ?? '',
-                  //         style: kTextSize18w400White,
-                  //       ),
-            ),
+                builder: (context, state) => const Text(
+                      'Chọn mục',
+                      style: kTextSize18w400White,
+                    )
+                // (state as EditSpendingInitial).spendingType == null
+                //     ? const Text(
+                //         'Chọn mục',
+                //         style: kTextSize18w400White,
+                //       )
+                //     : Text(
+                //         state.spendingType!.title ?? '',
+                //         style: kTextSize18w400White,
+                //       ),
+                ),
             const Spacer(),
             const Icon(
               Icons.arrow_right,
@@ -271,10 +272,9 @@ class EditSpendingView extends StatelessWidget {
             ),
             BlocBuilder<EditSpendingBloc, EditSpendingState>(
               builder: (context, state) => Text(
-                getDateString(
-                  DateTime.now()
-                  // (state as EditSpendingInitial).chooseDay ?? DateTime.now(),
-                ),
+                getDateString(DateTime.now()
+                    // (state as EditSpendingInitial).chooseDay ?? DateTime.now(),
+                    ),
                 style: kTextSize18w400White,
               ),
             ),
@@ -336,12 +336,26 @@ class EditSpendingView extends StatelessWidget {
 
   onSave(BuildContext context, EditSpendingBloc bloc) async {
     var _auth = FirebaseAuth.instance;
+
     var spending = FirebaseFirestore.instance
         .collection('users')
         .doc(_auth.currentUser?.uid)
         .collection('spending');
 
-    var state = bloc.state;
+    // spending.doc('t4dJ6V5KNsuvH2nRP5hk').get().then(
+    //   (value) {
+    //     print('value: ${value.data()?['date']}');
+    //   },
+    // );
+
+      spending.doc('lnklV3wYgUcj7skOwqj2').update({'id' : '123'});
+    // spending.where('id', isEqualTo: '-').get().then((item) {
+    //   try{
+    //     item.docs[0].data().update('id', (_) => '123');
+    //     print('done');
+    //   }catch(_){}
+    // });
+    // var state = bloc.state;
     // if (state is EditSpendingInitial) {
     //   String moneyString =
     //       bloc.moneyController.text.isEmpty ? '0' : bloc.moneyController.text;
@@ -379,7 +393,7 @@ class EditSpendingView extends StatelessWidget {
     //         context: context,
     //         builder: (context) => const LoadingDialog(),
     //         barrierDismissible: false);
-    //     await spending.add(data);
+    // await spending.add(data);
     //     // close dialog
     //     Navigator.pop(context);
     //     // navigate to main page

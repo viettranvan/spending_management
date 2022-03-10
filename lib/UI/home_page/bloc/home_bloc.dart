@@ -33,6 +33,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           String date = datetime.substring(0, 11);
           lists.add(
             HomeSpending(
+              id: doc['id'],
               date: date,
               money: doc['money'],
               note: doc['note'],
