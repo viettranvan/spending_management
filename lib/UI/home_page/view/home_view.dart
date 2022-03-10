@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spending_management/UI/home_page/bloc/home_bloc.dart';
 import 'package:spending_management/UI/home_page/widgets/flexiable_app_bar.dart';
-import 'package:spending_management/UI/profile_page/bloc/profile_bloc.dart';
 import 'package:spending_management/utils/utils.dart';
 
 import '../widgets/title_app_bar.dart';
@@ -33,22 +32,26 @@ class HomeView extends StatelessWidget {
             flexibleSpace: FlexibleSpaceBar(
               background: BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
+                  print('state:  $state');
                   if (state is HomeLoaded) {
                     return MyFlexiableAppBar(
-                      totalSpent: formatMoney( state.totalSpent.toString()),
-                      totalEarn: formatMoney(  state.totalEarn.toString()),
-                      balance: formatMoney((state.totalEarn - state.totalSpent).toString()) ,
-                      endDate: state.lists.first.date,
-                      startDate: state.lists.last.date,
+                      totalSpent: formatMoney(state.totalSpent.toString()),
+                      totalEarn: formatMoney(state.totalEarn.toString()),
+                      balance: formatMoney(
+                          (state.totalEarn - state.totalSpent).toString()),
+                      endDate:
+                          state.lists.isEmpty ? '' : state.lists.first.date,
+                      startDate:
+                          state.lists.isEmpty ? '' : state.lists.last.date,
                     );
                   }
                   return MyFlexiableAppBar(
-                      totalSpent: formatMoney('0'),
-                      totalEarn: formatMoney('0'),
-                      balance: formatMoney('0'),
-                      endDate: '',
-                      startDate: '',
-                    );
+                    totalSpent: formatMoney('0'),
+                    totalEarn: formatMoney('0'),
+                    balance: formatMoney('0'),
+                    endDate: '',
+                    startDate: '',
+                  );
                 },
               ),
             ),
@@ -95,7 +98,7 @@ class HomeView extends StatelessWidget {
                         return HomeSpendingItem(
                           date: state.lists[index].date,
                           preDate: index > 0 ? state.lists[index - 1].date : '',
-                          iconPath: '',
+                          iconPath: state.lists[index].iconPath,
                           money: state.lists[index].money,
                           note: state.lists[index].note,
                           type: state.lists[index].type,
@@ -154,11 +157,10 @@ class HomeSpendingItem extends StatelessWidget {
           children: [
             Expanded(
               child: ListTile(
-                leading: const CircleAvatar(
+                leading:  CircleAvatar(
                   radius: 30.0,
-                  child: FlutterLogo(
-                    size: 30.0,
-                  ),
+                  backgroundColor: Colors.white,
+                  child: Image.asset(iconPath,fit: BoxFit.cover),
                 ),
                 title: Text(typeItem, style: kTextSize18w400White),
                 subtitle: Text(note.isEmpty ? 'Không có ghi chú' : note,

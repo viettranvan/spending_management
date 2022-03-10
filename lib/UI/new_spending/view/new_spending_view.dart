@@ -81,15 +81,19 @@ class NewSpendingView extends StatelessWidget {
                           children: [
                             const Spacer(),
                             GestureDetector(
-                              onTap: () => onSave(context, bloc),
-                              child: const CircleAvatar(
-                                  radius: 30.0,
-                                  child: Icon(
-                                    Icons.save,
-                                    size: 40.0,
-                                  )),
-                            ),
-                            SizedBox(width: 25.0),
+                                onTap: () => onSave(context, bloc),
+                                child: Container(
+                                  height: 60.0,
+                                  width: 60.0,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(60.0),
+                                      color: Colors.white,
+                                      image: const DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/save_icon.png'),
+                                          fit: BoxFit.fill)),
+                                )),
+                            const SizedBox(width: 25.0),
                           ],
                         ),
                       ),
@@ -112,19 +116,26 @@ class NewSpendingView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               GestureDetector(
-                onTap: () => _openSpendingType(context, bloc),
-                child: const CircleAvatar(
-                  radius: 30.0,
-                  child: Icon(
-                    Icons.save,
-                    size: 40.0,
-                  ),
-                ),
-              ),
+                  onTap: () => _openSpendingType(context, bloc),
+                  child: Container(
+                    height: 50.0,
+                    width: 50.0,
+                    margin: const EdgeInsets.only(left: 10.0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(60.0),
+                        color: Colors.white,
+                        image: DecorationImage(
+                            image: AssetImage(
+                                (state as NewSpendingInitial).spendingType ==
+                                        null
+                                    ? 'assets/images/save_icon.png'
+                                    : state.spendingType?.iconPath ?? ''),
+                            fit: BoxFit.fill)),
+                  )),
               const SizedBox(
                 width: 5.0,
               ),
-              (state as NewSpendingInitial).spendingType == null
+              state.spendingType == null
                   ? const Padding(
                       padding: EdgeInsets.only(bottom: 10.0),
                       child: Text(''),
@@ -179,11 +190,13 @@ class NewSpendingView extends StatelessWidget {
         child: Row(
           children: [
             const CircleAvatar(
-              radius: 15.0,
-              backgroundColor: Colors.amber,
-              backgroundImage: NetworkImage(
-                  'https://toigingiuvedep.vn/wp-content/uploads/2021/06/hinh-anh-anime-girl-deo-kinh-thoi-trang-tri-thuc-dep-nhat.jpg'),
-            ),
+                radius: 15.0,
+                backgroundColor: Colors.white,
+                backgroundImage: AssetImage('assets/images/type_icon.jpg')
+
+                // NetworkImage(
+                //     'https://toigingiuvedep.vn/wp-content/uploads/2021/06/hinh-anh-anime-girl-deo-kinh-thoi-trang-tri-thuc-dep-nhat.jpg'),
+                ),
             const SizedBox(
               width: 15.0,
             ),
@@ -237,11 +250,13 @@ class NewSpendingView extends StatelessWidget {
         child: Row(
           children: [
             const CircleAvatar(
-              radius: 15.0,
-              backgroundColor: Colors.amber,
-              backgroundImage: NetworkImage(
-                  'https://toigingiuvedep.vn/wp-content/uploads/2021/06/hinh-anh-anime-girl-deo-kinh-thoi-trang-tri-thuc-dep-nhat.jpg'),
-            ),
+                radius: 15.0,
+                backgroundColor: Colors.amber,
+                backgroundImage: AssetImage('assets/images/datetime_icon.jpg')
+
+                // NetworkImage(
+                //     'https://toigingiuvedep.vn/wp-content/uploads/2021/06/hinh-anh-anime-girl-deo-kinh-thoi-trang-tri-thuc-dep-nhat.jpg'),
+                ),
             const SizedBox(
               width: 15.0,
             ),
@@ -277,11 +292,13 @@ class NewSpendingView extends StatelessWidget {
       child: Row(
         children: [
           const CircleAvatar(
-            radius: 15.0,
-            backgroundColor: Colors.amber,
-            backgroundImage: NetworkImage(
-                'https://toigingiuvedep.vn/wp-content/uploads/2021/06/hinh-anh-anime-girl-deo-kinh-thoi-trang-tri-thuc-dep-nhat.jpg'),
-          ),
+              radius: 15.0,
+              backgroundColor: Colors.white,
+              backgroundImage: AssetImage('assets/images/note_icon.png')
+
+              // NetworkImage(
+              //     'https://toigingiuvedep.vn/wp-content/uploads/2021/06/hinh-anh-anime-girl-deo-kinh-thoi-trang-tri-thuc-dep-nhat.jpg'),
+              ),
           const SizedBox(
             width: 15.0,
           ),
