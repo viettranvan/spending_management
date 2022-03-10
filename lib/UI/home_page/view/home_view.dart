@@ -60,8 +60,7 @@ class HomeView extends StatelessWidget {
                     return MyFlexiableAppBar(
                       totalSpent: formatMoney(state.totalSpent.toString()),
                       totalEarn: formatMoney(state.totalEarn.toString()),
-                      balance: formatMoney(
-                          (state.totalEarn - state.totalSpent).toString()),
+                      balance: getBalance(state.totalEarn, state.totalSpent),
                       endDate:
                           state.lists.isEmpty ? '' : state.lists.first.date,
                       startDate:

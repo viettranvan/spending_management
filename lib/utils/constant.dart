@@ -104,7 +104,7 @@ String getDateString(DateTime datetime) {
   String dayInMonth = datetime.day.toString();
   String month = datetime.month.toString();
   String year = datetime.year.toString();
-  result += '$dayInMonth tháng $month năm $year';
+  result += '$dayInMonth/$month/$year';
   return result;
 }
 
@@ -118,4 +118,15 @@ String formatMoney(String moneyString) {
   } catch (e) {
     return '';
   }
+}
+
+String getBalance(int earn, int spent){
+  int balace = earn - spent;
+  String result = formatMoney(balace.toString());
+  if(balace < 0){
+    return '-$result';
+  }
+
+  return result;
+
 }

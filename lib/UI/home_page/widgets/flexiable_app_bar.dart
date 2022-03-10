@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:marquee/marquee.dart';
 import 'package:spending_management/utils/utils.dart';
 
 class MyFlexiableAppBar extends StatelessWidget {
@@ -60,7 +61,8 @@ class MyFlexiableAppBar extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25.0),
-                              border: Border.all(width: 1.0, color: AppColor.black25),
+                              border: Border.all(
+                                  width: 1.0, color: AppColor.black25),
                               color: AppColor.blur,
                             ),
                             child: Row(
@@ -71,21 +73,26 @@ class MyFlexiableAppBar extends StatelessWidget {
                                   color: Colors.white,
                                   size: 18.0,
                                 ),
-                                Text(
-                                  " Từ $startDate ",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                                Text(
-                                  "Đến $endDate",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold
-
+                                const SizedBox(width: 10.0),
+                                SizedBox(
+                                  height: 20.0,
+                                  width: 200.0,
+                                  child: Marquee(
+                                    text: startDate.isNotEmpty  ? 'Từ $startDate Đến $endDate': getDateNow(),
+                                    style: kTextSize18w400White,
+                                    scrollAxis: Axis.horizontal,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    blankSpace: 20.0,
+                                    velocity: 50.0,
+                                    pauseAfterRound: const Duration(seconds: 1),
+                                    startPadding: 10.0,
+                                    accelerationDuration:
+                                        const Duration(seconds: 1),
+                                    accelerationCurve: Curves.linear,
+                                    decelerationDuration:
+                                        const Duration(milliseconds: 500),
+                                    decelerationCurve: Curves.easeOut,
                                   ),
                                 ),
                               ],
@@ -113,17 +120,44 @@ class MyFlexiableAppBar extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Expanded(
-                        child: Text(
-                          'Thu: $totalEarn',
-                          style: kTextSize18w400Green,
-                          overflow: TextOverflow.ellipsis,
+                        child: SizedBox(
+                          height: 20.0,
+                          child: Marquee(
+                            text: 'Thu: $totalEarn',
+                            style: kTextSize18w400Green,
+                            scrollAxis: Axis.horizontal,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            blankSpace: 20.0,
+                            velocity: 100.0,
+                            pauseAfterRound: const Duration(seconds: 1),
+                            startPadding: 10.0,
+                            accelerationDuration: const Duration(seconds: 1),
+                            accelerationCurve: Curves.linear,
+                            decelerationDuration:
+                                const Duration(milliseconds: 500),
+                            decelerationCurve: Curves.easeOut,
+                          ),
                         ),
                       ),
+                      const SizedBox(width: 10.0),
                       Expanded(
-                        child: Text(
-                          'Chi: $totalSpent',
-                          style: kTextSize18w400Red,
-                          overflow: TextOverflow.ellipsis,
+                        child: SizedBox(
+                          height: 20.0,
+                          child: Marquee(
+                            text: 'Chi: $totalSpent',
+                            style: kTextSize18w400Red,
+                            scrollAxis: Axis.horizontal,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            blankSpace: 20.0,
+                            velocity: 100.0,
+                            pauseAfterRound: const Duration(seconds: 1),
+                            startPadding: 10.0,
+                            accelerationDuration: const Duration(seconds: 1),
+                            accelerationCurve: Curves.linear,
+                            decelerationDuration:
+                                const Duration(milliseconds: 500),
+                            decelerationCurve: Curves.easeOut,
+                          ),
                         ),
                       ),
                     ],
