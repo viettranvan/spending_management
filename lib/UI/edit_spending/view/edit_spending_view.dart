@@ -8,16 +8,17 @@ import 'package:spending_management/utils/utils.dart';
 
 import '../../../components/components.dart';
 import '../../bottom_modal_sheet/type_modal_bs.dart/view/type_modal_bs.dart';
-import '../bloc/new_spending_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../bloc/edit_spending_bloc.dart';
+
 // ignore: must_be_immutable
-class NewSpendingView extends StatelessWidget {
-  NewSpendingView({Key? key}) : super(key: key);
+class EditSpendingView extends StatelessWidget {
+  EditSpendingView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var bloc = BlocProvider.of<NewSpendingBloc>(context);
+    var bloc = BlocProvider.of<EditSpendingBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -30,7 +31,7 @@ class NewSpendingView extends StatelessWidget {
           ),
         ),
         title: const Text(
-          'Thêm mới',
+          'Chỉnh sửa',
           style: kTextSize25w400White,
         ),
         elevation: 2.0,
@@ -43,7 +44,7 @@ class NewSpendingView extends StatelessWidget {
             const SizedBox(
               height: 30.0,
             ),
-            BlocBuilder<NewSpendingBloc, NewSpendingState>(
+            BlocBuilder<EditSpendingBloc, EditSpendingState>(
               builder: (context, state) {
                 return Container(
                   padding: const EdgeInsets.only(top: 30.0),
@@ -56,7 +57,7 @@ class NewSpendingView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _moneyTextField(context, bloc),
-                      _moneyValue(state),
+                      // _moneyValue(state),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         decoration: const BoxDecoration(
@@ -108,10 +109,10 @@ class NewSpendingView extends StatelessWidget {
     );
   }
 
-  Widget _moneyTextField(BuildContext context, NewSpendingBloc bloc) {
+  Widget _moneyTextField(BuildContext context, EditSpendingBloc bloc) {
     return Row(
       children: [
-        BlocBuilder<NewSpendingBloc, NewSpendingState>(
+        BlocBuilder<EditSpendingBloc, EditSpendingState>(
           builder: (context, state) => Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -124,26 +125,23 @@ class NewSpendingView extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(60.0),
                         color: Colors.white,
-                        image: DecorationImage(
+                        image: const DecorationImage(
                             image: AssetImage(
-                                (state as NewSpendingInitial).spendingType ==
-                                        null
-                                    ? 'assets/images/save_icon.png'
-                                    : state.spendingType?.iconPath ?? ''),
+                                'assets/images/save_icon.png'),
                             fit: BoxFit.fill)),
                   )),
               const SizedBox(
                 width: 5.0,
               ),
-              state.spendingType == null
-                  ? const Padding(
-                      padding: EdgeInsets.only(bottom: 10.0),
-                      child: Text(''),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Text(state.spendingType?.title ?? ''),
-                    ),
+              // state.spendingType == null
+              //     ? const Padding(
+              //         padding: EdgeInsets.only(bottom: 10.0),
+              //         child: Text(''),
+              //       )
+              //     : Padding(
+              //         padding: const EdgeInsets.only(bottom: 10.0),
+              //         child: Text(state.spendingType?.title ?? ''),
+              //       ),
             ],
           ),
         ),
@@ -153,7 +151,7 @@ class NewSpendingView extends StatelessWidget {
             style: kTextSize40BoldWhite,
             keyboardType: TextInputType.number,
             onChanged: (value) {
-              bloc.add(MoneyChange(money: value));
+              // bloc.add(MoneyChange(money: value));
             },
             textAlign: TextAlign.end,
             decoration: const InputDecoration(
@@ -169,20 +167,20 @@ class NewSpendingView extends StatelessWidget {
     );
   }
 
-  Widget _moneyValue(NewSpendingState state) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Visibility(
-        visible: (state as NewSpendingInitial).money.isNotEmpty,
-        child: Text(
-          formatMoney(state.money),
-          style: kTextSize20w400White,
-        ),
-      ),
-    );
-  }
+  // Widget _moneyValue(EditSpendingState state) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 10.0),
+  //     child: Visibility(
+  //       visible: (state as EditSpendingInitial).money.isNotEmpty,
+  //       child: Text(
+  //         formatMoney(state.money),
+  //         style: kTextSize20w400White,
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  Widget _type(BuildContext context, NewSpendingBloc bloc) {
+  Widget _type(BuildContext context, EditSpendingBloc bloc) {
     return InkWell(
       onTap: () => _openSpendingType(context, bloc),
       child: Padding(
@@ -207,17 +205,21 @@ class NewSpendingView extends StatelessWidget {
             const SizedBox(
               width: 15.0,
             ),
-            BlocBuilder<NewSpendingBloc, NewSpendingState>(
+            BlocBuilder<EditSpendingBloc, EditSpendingState>(
               builder: (context, state) =>
-                  (state as NewSpendingInitial).spendingType == null
-                      ? const Text(
+              const Text(
                           'Chọn mục',
                           style: kTextSize18w400White,
                         )
-                      : Text(
-                          state.spendingType!.title ?? '',
-                          style: kTextSize18w400White,
-                        ),
+                  // (state as EditSpendingInitial).spendingType == null
+                  //     ? const Text(
+                  //         'Chọn mục',
+                  //         style: kTextSize18w400White,
+                  //       )
+                  //     : Text(
+                  //         state.spendingType!.title ?? '',
+                  //         style: kTextSize18w400White,
+                  //       ),
             ),
             const Spacer(),
             const Icon(
@@ -241,9 +243,9 @@ class NewSpendingView extends StatelessWidget {
         );
 
         // var dateString = getDateString(date ?? DateTime.now());
-        context
-            .read<NewSpendingBloc>()
-            .add(PickDate(date: date ?? DateTime.now()));
+        // context
+        //     .read<NewSpendingBloc>()
+        //     .add(PickDate(date: date ?? DateTime.now()));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -267,10 +269,11 @@ class NewSpendingView extends StatelessWidget {
             const SizedBox(
               width: 15.0,
             ),
-            BlocBuilder<NewSpendingBloc, NewSpendingState>(
+            BlocBuilder<EditSpendingBloc, EditSpendingState>(
               builder: (context, state) => Text(
                 getDateString(
-                  (state as NewSpendingInitial).chooseDay ?? DateTime.now(),
+                  DateTime.now()
+                  // (state as EditSpendingInitial).chooseDay ?? DateTime.now(),
                 ),
                 style: kTextSize18w400White,
               ),
@@ -286,7 +289,7 @@ class NewSpendingView extends StatelessWidget {
     );
   }
 
-  Widget _note(NewSpendingBloc bloc) {
+  Widget _note(EditSpendingBloc bloc) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Row(
@@ -326,12 +329,12 @@ class NewSpendingView extends StatelessWidget {
     Tab(text: 'Thu nhập'),
   ];
 
-  _openSpendingType(BuildContext context, NewSpendingBloc bloc) async {
+  _openSpendingType(BuildContext context, EditSpendingBloc bloc) async {
     SpendingModel? model = await TypeModalBS.show(context);
-    bloc.add(PickSpendingType(spendingModel: model));
+    // bloc.add(PickSpendingType(spendingModel: model));
   }
 
-  onSave(BuildContext context, NewSpendingBloc bloc) async {
+  onSave(BuildContext context, EditSpendingBloc bloc) async {
     var _auth = FirebaseAuth.instance;
     var spending = FirebaseFirestore.instance
         .collection('users')
@@ -339,50 +342,50 @@ class NewSpendingView extends StatelessWidget {
         .collection('spending');
 
     var state = bloc.state;
-    if (state is NewSpendingInitial) {
-      String moneyString =
-          bloc.moneyController.text.isEmpty ? '0' : bloc.moneyController.text;
-      String validateMoney = moneyString.replaceAll(RegExp(r"\D"), "");
+    // if (state is EditSpendingInitial) {
+    //   String moneyString =
+    //       bloc.moneyController.text.isEmpty ? '0' : bloc.moneyController.text;
+    //   String validateMoney = moneyString.replaceAll(RegExp(r"\D"), "");
 
-      int money = int.parse(validateMoney.isEmpty ? '0' : validateMoney);
+    //   int money = int.parse(validateMoney.isEmpty ? '0' : validateMoney);
 
-      String? title =
-          state.spendingType == null ? null : state.spendingType!.title;
-      String? type =
-          state.spendingType == null ? null : state.spendingType!.spendingType;
-      DateTime date = state.chooseDay ?? DateTime.now();
-      String note = bloc.noteController.text;
+    //   String? title =
+    //       state.spendingType == null ? null : state.spendingType!.title;
+    //   String? type =
+    //       state.spendingType == null ? null : state.spendingType!.spendingType;
+    //   DateTime date = state.chooseDay ?? DateTime.now();
+    //   String note = bloc.noteController.text;
 
-      if (money <= 0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Nhập số tiền!')),
-        );
-      } else if (title == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Chọn loại!')),
-        );
-      } else {
-        var now = DateTime.now();
-        var data = {
-          'date': DateTime(date.year, date.month, date.day, now.hour,
-              now.minute, now.second, now.microsecond),
-          'money': money,
-          'note': note,
-          'type': type,
-          'type_item': title,
-          'icon_path': state.spendingType!.iconPath
-        };
-        showDialog(
-            context: context,
-            builder: (context) => const LoadingDialog(),
-            barrierDismissible: false);
-        await spending.add(data);
-        // close dialog
-        Navigator.pop(context);
-        // navigate to main page
-        Navigator.pushNamedAndRemoveUntil(
-            context, MainPage.id, (route) => false);
-      }
-    }
+    //   if (money <= 0) {
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       const SnackBar(content: Text('Nhập số tiền!')),
+    //     );
+    //   } else if (title == null) {
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       const SnackBar(content: Text('Chọn loại!')),
+    //     );
+    //   } else {
+    //     var now = DateTime.now();
+    //     var data = {
+    //       'date': DateTime(date.year, date.month, date.day, now.hour,
+    //           now.minute, now.second, now.microsecond),
+    //       'money': money,
+    //       'note': note,
+    //       'type': type,
+    //       'type_item': title,
+    //       'icon_path': state.spendingType!.iconPath
+    //     };
+    //     showDialog(
+    //         context: context,
+    //         builder: (context) => const LoadingDialog(),
+    //         barrierDismissible: false);
+    //     await spending.add(data);
+    //     // close dialog
+    //     Navigator.pop(context);
+    //     // navigate to main page
+    //     Navigator.pushNamedAndRemoveUntil(
+    //         context, MainPage.id, (route) => false);
+    //   }
+    // }
   }
 }

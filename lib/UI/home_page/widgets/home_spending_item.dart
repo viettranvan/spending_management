@@ -13,6 +13,7 @@ class HomeSpendingItem extends StatelessWidget {
     required this.iconPath,
     required this.money,
     required this.preDate,
+    this.onTap
   }) : super(key: key);
 
   final String typeItem;
@@ -22,6 +23,7 @@ class HomeSpendingItem extends StatelessWidget {
   final String type;
   final String date;
   final String preDate;
+  final VoidCallback? onTap; 
 
   @override
   Widget build(BuildContext context) {
@@ -35,34 +37,37 @@ class HomeSpendingItem extends StatelessWidget {
             child: Text(date, style: kTextSize20w400White),
           ),
         ),
-        Row(
-          children: [
-            Expanded(
-              child: ListTile(
-                leading:  CircleAvatar(
-                  radius: 30.0,
-                  backgroundColor: Colors.white,
-                  child: Image.asset(iconPath,fit: BoxFit.cover),
+        GestureDetector(
+          onTap: onTap,
+          child: Row(
+            children: [
+              Expanded(
+                child: ListTile(
+                  leading:  CircleAvatar(
+                    radius: 30.0,
+                    backgroundColor: Colors.white,
+                    child: Image.asset(iconPath,fit: BoxFit.cover),
+                  ),
+                  title: Text(typeItem, style: kTextSize18w400White),
+                  subtitle: Text(note.isEmpty ? 'Không có ghi chú' : note,
+                      style: kTextSize15w400White),
+                  isThreeLine: true,
                 ),
-                title: Text(typeItem, style: kTextSize18w400White),
-                subtitle: Text(note.isEmpty ? 'Không có ghi chú' : note,
-                    style: kTextSize15w400White),
-                isThreeLine: true,
               ),
-            ),
-            Row(
-              children: [
-                Text(type == 'spending' ? '-' : '+',
-                    style: type == 'spending'
-                        ? kTextSize18w400Red
-                        : kTextSize18w400Green),
-                Text(formatMoney(money.toString()),
-                    style: type == 'spending'
-                        ? kTextSize18w400Red
-                        : kTextSize18w400Green),
-              ],
-            ),
-          ],
+              Row(
+                children: [
+                  Text(type == 'spending' ? '-' : '+',
+                      style: type == 'spending'
+                          ? kTextSize18w400Red
+                          : kTextSize18w400Green),
+                  Text(formatMoney(money.toString()),
+                      style: type == 'spending'
+                          ? kTextSize18w400Red
+                          : kTextSize18w400Green),
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     );

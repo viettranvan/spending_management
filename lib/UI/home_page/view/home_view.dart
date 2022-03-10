@@ -1,15 +1,34 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spending_management/UI/edit_spending/view/edit_spending_page.dart';
 import 'package:spending_management/UI/home_page/bloc/home_bloc.dart';
-import 'package:spending_management/UI/home_page/widgets/flexiable_app_bar.dart';
 import 'package:spending_management/utils/utils.dart';
 
-import '../widgets/title_app_bar.dart';
 import '../widgets/widget.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
+
+  Widget itemBuilder(BuildContext context, int index) {
+    var state = context.read<HomeBloc>().state;
+
+    if (state is HomeLoaded) {
+      return HomeSpendingItem(
+        date: state.lists[index].date,
+        preDate: index > 0 ? state.lists[index - 1].date : '',
+        iconPath: state.lists[index].iconPath,
+        money: state.lists[index].money,
+        note: state.lists[index].note,
+        type: state.lists[index].type,
+        typeItem: state.lists[index].typeItem,
+        onTap: () {
+          Navigator.of(context).pushNamed(EditSpendingPage.id);
+        },
+      );
+    }
+    return const SizedBox();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,17 +82,7 @@ class HomeView extends StatelessWidget {
             if (state is HomeLoaded) {
               if (state.lists.isNotEmpty) {
                 return ListView.builder(
-                  itemBuilder: (context, index) {
-                    return HomeSpendingItem(
-                      date: state.lists[index].date,
-                      preDate: index > 0 ? state.lists[index - 1].date : '',
-                      iconPath: state.lists[index].iconPath,
-                      money: state.lists[index].money,
-                      note: state.lists[index].note,
-                      type: state.lists[index].type,
-                      typeItem: state.lists[index].typeItem,
-                    );
-                  },
+                  itemBuilder: itemBuilder,
                   itemCount: state.lists.length,
                 );
               } else {
@@ -87,4 +96,3 @@ class HomeView extends StatelessWidget {
     );
   }
 }
-
