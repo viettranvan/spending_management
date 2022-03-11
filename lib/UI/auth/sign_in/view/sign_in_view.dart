@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spending_management/services/local_auth.dart';
 import '../../../../components/components.dart';
 import '../../../../models/models.dart';
 import '../../../../services/services.dart';
@@ -47,6 +48,31 @@ class SignInView extends StatelessWidget {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         Navigator.pushReplacementNamed(context, MainPage.id);
       });
+    }
+
+    onFingerPrinterLogin(BuildContext context) async {
+      
+      final isAuthenticate = await LocalAuth.authenticate();
+
+      if (isAuthenticate) {
+        showDialog(
+        context: context,
+        builder: (context) => const LoadingDialog(),
+        barrierDismissible: false,
+      );
+        String email = 'viettranvan2k@gmail.com';
+        String password = 'Viet@1';
+
+        BlocProvider.of<SignInBloc>(context)
+            .add(SendLoginRequest(email: email, password: password));
+
+        var state = context.read<SignInBloc>().state;
+        if (state is SignInSuccess) {
+          Authentication auth = state.authentication;
+          gotoMainPage(auth);
+          Navigator.pushReplacementNamed(context, MainPage.id);
+        }
+      }
     }
 
     return Scaffold(
@@ -139,10 +165,42 @@ class SignInView extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20.0),
-                  ReusableButton(
-                    onTap: () => onLogin(context),
-                    buttonTitle: 'ĐĂNG NHẬP',
-                    buttonColor: AppColor.red,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ReusableButton(
+                          onTap: () => onLogin(context),
+                          buttonTitle: 'ĐĂNG NHẬP',
+                          buttonColor: AppColor.red,
+                        ),
+                      ),
+                      const SizedBox(width: 10.0),
+                      BlocBuilder<SignInBloc, SignInState>(
+                        builder: (context, state) => GestureDetector(
+                          onTap: () => onFingerPrinterLogin(context),
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                                color: AppColor.red,
+                                borderRadius: BorderRadius.circular(10.0),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    AppColor.red,
+                                    AppColor.red.withOpacity(0.5)
+                                  ],
+                                ),
+                                image: const DecorationImage(
+                                    image: AssetImage(
+                                      'assets/images/fingerprinter_icon.jpg',
+                                    ),
+                                    fit: BoxFit.contain)),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 20.0),
                   const SizedBox(height: 20.0),

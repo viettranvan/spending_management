@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ryuk.spending_management">
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
    <application
         android:label="spending_management"
         android:name="${applicationName}"
