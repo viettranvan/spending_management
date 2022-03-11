@@ -45,7 +45,7 @@ class ForgotPasswordView extends StatelessWidget {
                     height: 150.0,
                     width: 150.0,
                     child: Image.asset(
-                      'assets/images/themovie_app_icon.png',
+                      'assets/images/icon_app.png',
                       fit: BoxFit.cover,
                     ),
                   ),

@@ -1,17 +1,24 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spending_management/UI/main_page/bloc/main_page_bloc.dart';
-import 'package:spending_management/UI/new_spending/view/new_spending_page.dart';
 
-import '../../../utils/utils.dart';
 import '../../home_page/view/home_page.dart';
 import '../../profile_page/view/profile_page.dart';
 
 class MainView extends StatelessWidget {
   const MainView({Key? key}) : super(key: key);
 
-  gotoNewSpending(BuildContext context) {
-    Navigator.of(context).pushNamed(NewSpendingPage.id);
+  gotoNewSpending(BuildContext context) async {
+    FirebaseMessaging.instance.getToken().then((value) {
+      print('token: $value');
+    });
+    FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    await _firebaseMessaging.onTokenRefresh.listen((event) async {
+      print('abc');
+    });
+
+    // Navigator.of(context).pushNamed(NewSpendingPage.id);
   }
 
   @override
@@ -48,34 +55,34 @@ class MainView extends StatelessWidget {
             highlightElevation: 5.0,
             child: const Icon(Icons.add),
           ),
-          bottomNavigationBar: 
-          
-          BottomAppBar(
+          bottomNavigationBar: BottomAppBar(
             shape: const CircularNotchedRectangle(),
             notchMargin: 10.0,
             child: SizedBox(
               height: 60,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children:  [
+                children: [
                   GestureDetector(
                     onTap: () => BlocProvider.of<MainPageBloc>(context)
-                      .add(OnChangeTab(index: 0)),
-                    child:  Expanded(
-                      child: Icon(
-                        Icons.home,
-                        size: state.indexOfBottomNavigationBar == 0 ? 45.0 : 35,
-                        color: state.indexOfBottomNavigationBar == 0 ? Colors.red : Colors.white,
-                      ),
+                        .add(OnChangeTab(index: 0)),
+                    child: Icon(
+                      Icons.home,
+                      size: state.indexOfBottomNavigationBar == 0 ? 45.0 : 35,
+                      color: state.indexOfBottomNavigationBar == 0
+                          ? Colors.red
+                          : Colors.white,
                     ),
                   ),
                   GestureDetector(
                     onTap: () => BlocProvider.of<MainPageBloc>(context)
-                    .add(OnChangeTab(index: 1)),
-                    child:  Icon(
+                        .add(OnChangeTab(index: 1)),
+                    child: Icon(
                       Icons.person,
                       size: state.indexOfBottomNavigationBar == 1 ? 45.0 : 35,
-                        color: state.indexOfBottomNavigationBar == 1 ? Colors.red : Colors.white,
+                      color: state.indexOfBottomNavigationBar == 1
+                          ? Colors.red
+                          : Colors.white,
                     ),
                   ),
                 ],

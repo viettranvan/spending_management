@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -51,9 +52,9 @@ class ProfileView extends StatelessWidget {
 
     void onUpdateProfile() async {
       showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (context) => const LoadingDialog());
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => const LoadingDialog());
       if (_auth.currentUser != null) {
         BlocProvider.of<ProfileBloc>(context)
             .add(SaveProfileEvent(user: _auth.currentUser!));
@@ -85,7 +86,7 @@ class ProfileView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Profile', style: kTextSize28w500White),
+        title: const Text('Profile', style: kTextSize28w500White),
         actions: [
           GestureDetector(
             onTap: onLogOut,
@@ -214,7 +215,8 @@ class ProfileView extends StatelessWidget {
                     buttonTitle: 'Đổi mật khẩu',
                     buttonColor: AppColor.green,
                   ),
-                )
+                ),
+                const SizedBox(height: 35.0),
               ],
             ),
           ),

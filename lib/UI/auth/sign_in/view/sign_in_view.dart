@@ -72,7 +72,7 @@ class SignInView extends StatelessWidget {
                       height: 150.0,
                       width: 150.0,
                       child: Image.asset(
-                        'assets/images/themovie_app_icon.png',
+                        'assets/images/icon_app.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -117,7 +117,7 @@ class SignInView extends StatelessWidget {
                     textInputAction: TextInputAction.next,
                   ),
                   const SizedBox(height: 20.0),
-                  const Text('Password', style: kTextSize20w400White),
+                  const Text('Mật khẩu', style: kTextSize20w400White),
                   const SizedBox(height: 10.0),
                   ReusableTextField(
                     hintText: 'Enter your Password',

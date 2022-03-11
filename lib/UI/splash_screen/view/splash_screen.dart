@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           const SizedBox(height: 10.0),
           Center(
-              child: Text('THE MOVIE',
+              child: Text('SPENDING MANAGEMENT',
                   style: kTextSize30w400White.copyWith(
                       fontWeight: FontWeight.bold))),
           Center(
@@ -65,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 150.0,
               width: 150.0,
               child: Image.asset(
-                'assets/images/themovie_app_icon.png',
+                'assets/images/icon_app.png',
                 fit: BoxFit.cover,
               ),
             ),
@@ -74,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text('Welcome to The Movie App',
+                child: Text('Quản lý chi tiêu của bạn',
                     textAlign: TextAlign.center,
                     style: kTextSize30w400White.copyWith(
                         fontWeight: FontWeight.bold,)),
