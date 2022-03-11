@@ -124,6 +124,7 @@ class ProfileView extends StatelessWidget {
                               .showSnackBar(const SnackBar(
                             content: Text('Cập nhật thông tin thành công!',
                                 style: kTextSize18w400White),
+                            behavior: SnackBarBehavior.floating,
                             backgroundColor: AppColor.background,
                           ));
                         });
@@ -136,6 +137,7 @@ class ProfileView extends StatelessWidget {
                             content: Text(
                                 (state as SaveProfileFailure).errorText,
                                 style: kTextSize18w400White),
+                            behavior: SnackBarBehavior.floating,
                             backgroundColor: AppColor.background,
                           ));
                         });
@@ -204,6 +206,7 @@ class ProfileView extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Upload Avatar thành công!',
                         style: kTextSize18w400White),
+                    behavior: SnackBarBehavior.floating,
                     backgroundColor: AppColor.background,
                   ));
                 });

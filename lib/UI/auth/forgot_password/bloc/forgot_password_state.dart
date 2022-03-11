@@ -5,8 +5,10 @@ abstract class ForgotPasswordState {}
 
 class ForgotPasswordInitial extends ForgotPasswordState {}
 
-
-class SendEmailSuccess extends ForgotPasswordState{}
+class SendEmailSuccess extends ForgotPasswordState{
+  final String email;
+  SendEmailSuccess({required this.email});
+}
 
 class SendEmailFailure extends ForgotPasswordState{
   final String errorMessage;

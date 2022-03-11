@@ -32,7 +32,7 @@ class ForgotPasswordBloc
           emit(SendEmailFailure(
               errorMessage: checkFirebaseAuthExceptionError(obj)));
         } else {
-          emit(SendEmailSuccess());
+          emit(SendEmailSuccess(email: event.email));
         }
       }
     } catch (e) {

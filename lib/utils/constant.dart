@@ -13,6 +13,7 @@ Future<bool> onWillPop(BuildContext context) {
     currentBackPressTime = now;
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Press back again to exit', style: kTextSize18w400White),
+      behavior: SnackBarBehavior.floating,
       backgroundColor: AppColor.background,
     ));
     return Future.value(false);
@@ -21,27 +22,30 @@ Future<bool> onWillPop(BuildContext context) {
 }
 
 const String noProfileImage =
-        "https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png";
+    "https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png";
 
 String readTimestamp(int timestamp) {
-    var now =  DateTime.now();
-    var format =  DateFormat('HH:mm a');
-    var date =  DateTime.fromMicrosecondsSinceEpoch(timestamp * 1000);
-    var diff = date.difference(now);
-    var time = '';
+  var now = DateTime.now();
+  var format = DateFormat('HH:mm a');
+  var date = DateTime.fromMicrosecondsSinceEpoch(timestamp * 1000);
+  var diff = date.difference(now);
+  var time = '';
 
-    if (diff.inSeconds <= 0 || diff.inSeconds > 0 && diff.inMinutes == 0 || diff.inMinutes > 0 && diff.inHours == 0 || diff.inHours > 0 && diff.inDays == 0) {
-      time = format.format(date);
+  if (diff.inSeconds <= 0 ||
+      diff.inSeconds > 0 && diff.inMinutes == 0 ||
+      diff.inMinutes > 0 && diff.inHours == 0 ||
+      diff.inHours > 0 && diff.inDays == 0) {
+    time = format.format(date);
+  } else {
+    if (diff.inDays == 1) {
+      time = diff.inDays.toString() + 'DAY AGO';
     } else {
-      if (diff.inDays == 1) {
-        time = diff.inDays.toString() + 'DAY AGO';
-      } else {
-        time = diff.inDays.toString() + 'DAYS AGO';
-      }
+      time = diff.inDays.toString() + 'DAYS AGO';
     }
-
-    return time;
   }
+
+  return time;
+}
 
 String checkFirebaseAuthExceptionError(FirebaseAuthException error) {
   String result = '';
@@ -120,13 +124,12 @@ String formatMoney(String moneyString) {
   }
 }
 
-String getBalance(int earn, int spent){
+String getBalance(int earn, int spent) {
   int balace = earn - spent;
   String result = formatMoney(balace.toString());
-  if(balace < 0){
+  if (balace < 0) {
     return '-$result';
   }
 
   return result;
-
 }

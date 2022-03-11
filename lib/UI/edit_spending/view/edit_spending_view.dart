@@ -435,7 +435,9 @@ class EditSpendingView extends StatelessWidget {
                 context, MainPage.id, (route) => false);
 
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text('Dữ liệu của bạn đã được cập nhật!')));
+              content: Text('Dữ liệu của bạn đã được cập nhật!'),
+              behavior: SnackBarBehavior.floating,
+            ));
           },
         ),
       );
@@ -467,11 +469,12 @@ class EditSpendingView extends StatelessWidget {
                 context, MainPage.id, (route) => false);
 
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text('Dữ liệu của bạn đã được cập nhật!')));
+              content: Text('Dữ liệu của bạn đã được cập nhật!'),
+              behavior: SnackBarBehavior.floating,
+            ));
           },
         ),
       );
-      
     }
   }
 }

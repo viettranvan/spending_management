@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spending_management/services/shared_preferences.dart';
 import '../../../../components/components.dart';
 import '../../../../utils/utils.dart';
 import '../../sign_in/view/sign_in_page.dart';
@@ -67,9 +68,16 @@ class ForgotPasswordView extends StatelessWidget {
                       case SendEmailSuccess:
                         // close loading dialog
                         Navigator.maybePop(context);
-                        Future.delayed(
-                          Duration.zero,
-                          () => showDialog(
+                        Future.delayed(Duration.zero, () async {
+                          String? emailSave =
+                              await HelperSharedPreferences.getEmail();
+                          if (emailSave == (state as SendEmailSuccess).email) {
+                            await HelperSharedPreferences
+                                .saveIsFingerPrinterLogin(false);
+                            await HelperSharedPreferences.saveEmail('');
+                            await HelperSharedPreferences.savePassword('');
+                          }
+                          showDialog(
                             context: context,
                             barrierDismissible: false,
                             builder: (context) => CustomDialog(
@@ -83,8 +91,8 @@ class ForgotPasswordView extends StatelessWidget {
                               },
                               hasTwoButton: false,
                             ),
-                          ),
-                        );
+                          );
+                        });
                         break;
                       default:
                         return const SizedBox();

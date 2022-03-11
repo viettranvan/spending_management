@@ -40,6 +40,7 @@ class MainView extends StatelessWidget {
               );
             },
           ),
+          
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: showFab ? FloatingActionButton(

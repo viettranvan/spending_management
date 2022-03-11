@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spending_management/UI/change_password/bloc/change_password_bloc.dart';
 
 import '../../../components/components.dart';
+import '../../../services/services.dart';
 import '../../../utils/utils.dart';
 
 class ChangePasswordView extends StatelessWidget {
-
   const ChangePasswordView({Key? key}) : super(key: key);
 
   @override
@@ -17,7 +17,10 @@ class ChangePasswordView extends StatelessWidget {
     final auth = FirebaseAuth.instance;
 
     void onConfirmChange() {
-      showDialog(context: context, barrierDismissible: false,builder: (context) => const LoadingDialog());
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const LoadingDialog());
       BlocProvider.of<ChangePasswordBloc>(context).add(CheckErrorEvent(
         user: auth.currentUser,
         currentPassword: _bloc.currentController.text,
@@ -26,14 +29,22 @@ class ChangePasswordView extends StatelessWidget {
       ));
     }
 
-    onChangePasswordSuccess(BuildContext context) {
+    onChangePasswordSuccess(BuildContext context) async {
       // back to profile page
       Navigator.of(context).pop();
+
+      String? emailSave = await HelperSharedPreferences.getEmail();
+      if (emailSave == auth.currentUser?.email) {
+        await HelperSharedPreferences.saveIsFingerPrinterLogin(false);
+        await HelperSharedPreferences.saveEmail('');
+        await HelperSharedPreferences.savePassword('');
+      }
 
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Mật khẩu của bạn đã được cập nhật!',
               style: kTextSize18w400White),
+          behavior: SnackBarBehavior.floating,
           backgroundColor: AppColor.background,
         ));
         // Add Your Code here.

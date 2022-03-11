@@ -358,7 +358,10 @@ class NewSpendingView extends StatelessWidget {
         );
       } else if (title == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Chọn loại!')),
+          const SnackBar(
+            content: Text('Chọn loại!'),
+            behavior: SnackBarBehavior.floating,
+          ),
         );
       } else {
         var now = DateTime.now();
@@ -376,8 +379,8 @@ class NewSpendingView extends StatelessWidget {
             context: context,
             builder: (context) => const LoadingDialog(),
             barrierDismissible: false);
-        
-        await spending.add(data).then((value){
+
+        await spending.add(data).then((value) {
           spending.doc(value.id).update({'id': value.id});
         });
         // close dialog
