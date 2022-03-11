@@ -101,10 +101,12 @@ class ProfileView extends StatelessWidget {
             ),
           )
         ],
+        leading: null,
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: AppColor.background,
       ),
+      
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

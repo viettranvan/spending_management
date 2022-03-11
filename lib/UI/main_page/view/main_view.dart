@@ -92,19 +92,6 @@ class MainView extends StatelessWidget {
               ),
             ),
           ),
-
-          // BottomNavigationBar(
-          //   items: getItems(),
-          //   currentIndex: state.indexOfBottomNavigationBar,
-          //   showSelectedLabels: false,
-          //   showUnselectedLabels: false,
-          //   backgroundColor: AppColor.black25,
-          //   type: BottomNavigationBarType.fixed,
-          //   onTap: (index) {
-          //     BlocProvider.of<MainPageBloc>(context)
-          //             .add(OnChangeTab(index: index));
-          //   },
-          // ),
         );
       },
     );

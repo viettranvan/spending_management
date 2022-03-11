@@ -49,6 +49,8 @@ class HomeView extends StatelessWidget {
                   ? noProfileImage
                   : currentuser.photoURL ?? noProfileImage,
             ),
+            automaticallyImplyLeading: false,
+            leading: null,
             pinned: true,
             floating: true,
             expandedHeight: 250.0,
