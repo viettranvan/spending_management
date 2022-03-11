@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:spending_management/models/home_spending.dart';
 
 part 'home_event.dart';
@@ -59,7 +59,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   @override
   void onChange(Change<HomeState> change) {
-    print(change);
+    debugPrint(change.toString());
     super.onChange(change);
   }
 }

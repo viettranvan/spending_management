@@ -10,7 +10,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../main_page/view/main_page.dart';
 import '../bloc/edit_spending_bloc.dart';
-import 'package:marquee/marquee.dart';
 
 // ignore: must_be_immutable
 class EditSpendingView extends StatelessWidget {
@@ -278,7 +277,6 @@ class EditSpendingView extends StatelessWidget {
           lastDate: DateTime(2100),
         );
 
-        var dateString = getDateString(date ?? DateTime.now());
         context
             .read<EditSpendingBloc>()
             .add(PickDate(date: date ?? DateTime.now()));

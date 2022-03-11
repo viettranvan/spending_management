@@ -1,24 +1,16 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spending_management/UI/main_page/bloc/main_page_bloc.dart';
 
 import '../../home_page/view/home_page.dart';
+import '../../new_spending/view/new_spending_page.dart';
 import '../../profile_page/view/profile_page.dart';
 
 class MainView extends StatelessWidget {
   const MainView({Key? key}) : super(key: key);
 
   gotoNewSpending(BuildContext context) async {
-    FirebaseMessaging.instance.getToken().then((value) {
-      print('token: $value');
-    });
-    FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-    await _firebaseMessaging.onTokenRefresh.listen((event) async {
-      print('abc');
-    });
-
-    // Navigator.of(context).pushNamed(NewSpendingPage.id);
+    Navigator.of(context).pushNamed(NewSpendingPage.id);
   }
 
   @override

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spending_management/UI/home_page/widgets/home_spending_item.dart';
-
 import '../bloc/edit_spending_bloc.dart';
 import 'edit_spending_view.dart';
 

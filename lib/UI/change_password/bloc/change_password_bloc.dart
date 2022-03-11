@@ -94,7 +94,6 @@ class ChangePasswordBloc
 
   String validatePassword(String password) {
     String result = '';
-    print('password: $password');
     if (password.isEmpty) {
       result = 'Vui lòng nhập mật khẩu mới!';
     } else if (!Validation().validatorPassword(password)) {
