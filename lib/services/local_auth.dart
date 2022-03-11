@@ -14,7 +14,7 @@ class LocalAuth {
     }
   }
 
-  static Future<bool> authenticate() async {
+  static Future<bool> authenticate(String email) async {
     final isAvailable = await hasBiometrics();
     if (!isAvailable) {
       return false;
@@ -22,7 +22,7 @@ class LocalAuth {
     try {
       return await _auth.authenticate(
         biometricOnly: true,
-        localizedReason: 'Scan your finger',
+        localizedReason: 'Quét vân tay, đăng nhập cho tài khoản: $email',
         useErrorDialogs: true,
         stickyAuth: true,
       );

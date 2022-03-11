@@ -31,6 +31,7 @@ class ProfileView extends StatelessWidget {
       try {
         showDialog(
           context: context,
+          barrierDismissible: false,
           builder: (context) => CustomDialog(
             title: 'Đăng xuất',
             content: 'Bạn có muốn đăng xuất?',

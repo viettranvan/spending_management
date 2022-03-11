@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../models/models.dart';
 import '../../../../services/services.dart';
@@ -14,25 +15,57 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  SignInBloc({required this.authService}) : super(SignInInitial()) {
+  SignInBloc({required this.authService}) : super(const SignInInitial()) {
+    on<FetchData>(_onFetchData);
     on<SendLoginRequest>(_onSendLoginRequest);
   }
 
+  _onFetchData(FetchData event, Emitter<SignInState> emit) async {
+    try {
+      bool? enableFinger =
+          await HelperSharedPreferences.getIsFingerPrinterLogin();
+      String? email = await HelperSharedPreferences.getEmail();
+      String? password = await HelperSharedPreferences.getPassword();
+      emit(SignInInitial(
+          fingerLogin: enableFinger, email: email, password: password));
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   _onSendLoginRequest(SendLoginRequest event, Emitter<SignInState> emit) async {
+    bool? enableFinger =
+        await HelperSharedPreferences.getIsFingerPrinterLogin();
+    String? email = await HelperSharedPreferences.getEmail();
+    String? password = await HelperSharedPreferences.getPassword();
+
     try {
       String check = checkValidate(event.email, event.password);
 
       if (check.isNotEmpty) {
-        emit(SignInFailure(errorMessage: check));
+        emit(SignInFailure(
+          errorMessage: check,
+          fingerLogin: enableFinger,
+          email: email,
+          password: password,
+        ));
       } else {
         var authenticationObj = await authService.signInWithEmailAndPassword(
             event.email, event.password);
         if (authenticationObj.runtimeType == Authentication) {
-          emit(SignInSuccess(authentication: authenticationObj));
+          emit(SignInSuccess(
+            authentication: authenticationObj,
+            fingerLogin: enableFinger,
+            email: email,
+            password: password,
+          ));
         } else if (authenticationObj.runtimeType == FirebaseAuthException) {
           emit(
             SignInFailure(
               errorMessage: checkFirebaseAuthExceptionError(authenticationObj),
+              fingerLogin: enableFinger,
+              email: email,
+              password: password,
             ),
           );
         }
@@ -73,5 +106,11 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     emailController.dispose();
     passwordController.dispose();
     return super.close();
+  }
+
+  @override
+  void onChange(Change<SignInState> change) {
+    print(change);
+    super.onChange(change);
   }
 }

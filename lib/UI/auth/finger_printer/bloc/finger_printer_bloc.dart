@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:spending_management/services/shared_preferences.dart';
 
@@ -23,6 +24,7 @@ class FingerPrinterBloc extends Bloc<FingerPrinterEvent, FingerPrinterState> {
     var currentState = state;
     if (currentState is FingerPrinterInitial) {
       await HelperSharedPreferences.saveIsFingerPrinterLogin(false);
+      await HelperSharedPreferences.saveEmail('');
       await HelperSharedPreferences.savePassword('');
       emit(currentState.update(enable: false));
     }

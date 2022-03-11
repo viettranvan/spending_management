@@ -71,6 +71,7 @@ class FingerModalBS extends StatelessWidget {
                   // close laoding dialog
                   Navigator.of(context).pop();
                   await HelperSharedPreferences.saveIsFingerPrinterLogin(true);
+                  await HelperSharedPreferences.saveEmail(FirebaseAuth.instance.currentUser?.email ?? '');
                   await HelperSharedPreferences.savePassword(state.password);
                   // pop to finger_printer_page
                   Navigator.of(context).pop<bool>(true);

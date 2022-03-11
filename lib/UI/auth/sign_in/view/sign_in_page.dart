@@ -13,7 +13,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignInBloc(authService: AuthService()),
+      create: (context) => SignInBloc(authService: AuthService())..add(FetchData()),
       child: const SignInView(),
     );
   }

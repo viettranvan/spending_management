@@ -51,21 +51,19 @@ class SignInView extends StatelessWidget {
       });
     }
 
-    onFingerPrinterLogin(BuildContext context) async {
-      
-      final isAuthenticate = await LocalAuth.authenticate();
-
+    onFingerPrinterLogin(BuildContext context, SignInBloc bloc) async {
+      final isAuthenticate = await LocalAuth.authenticate(bloc.state.email ?? '');
+      print(bloc.state.email);
       if (isAuthenticate) {
         showDialog(
-        context: context,
-        builder: (context) => const LoadingDialog(),
-        barrierDismissible: false,
-      );
-        String email = 'viettranvan2k@gmail.com';
-        String password = 'Viet@1';
+          context: context,
+          builder: (context) => const LoadingDialog(),
+          barrierDismissible: false,
+        );
+        String email = bloc.state.email ?? '';
+        String password = bloc.state.password ?? '';
 
-        BlocProvider.of<SignInBloc>(context)
-            .add(SendLoginRequest(email: email, password: password));
+        bloc.add(SendLoginRequest(email: email, password: password));
 
         var state = context.read<SignInBloc>().state;
         if (state is SignInSuccess) {
@@ -176,31 +174,37 @@ class SignInView extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 10.0),
-                      
                       BlocBuilder<SignInBloc, SignInState>(
-                        builder: (context, state) => GestureDetector(
-                          onTap: () => onFingerPrinterLogin(context),
-                          child: Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                                color: AppColor.red,
-                                borderRadius: BorderRadius.circular(10.0),
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    AppColor.red,
-                                    AppColor.red.withOpacity(0.5)
-                                  ],
-                                ),
-                                image: const DecorationImage(
-                                    image: AssetImage(
-                                      'assets/images/fingerprinter_icon.jpg',
-                                    ),
-                                    fit: BoxFit.contain)),
-                          ),
-                        ),
+                        builder: (context, state) {
+                          var bloc = context.read<SignInBloc>();
+                          return (state.fingerLogin ?? false)
+                              ? GestureDetector(
+                                  onTap: () =>
+                                      onFingerPrinterLogin(context, bloc),
+                                  child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                        color: AppColor.red,
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            AppColor.red,
+                                            AppColor.red.withOpacity(0.5)
+                                          ],
+                                        ),
+                                        image: const DecorationImage(
+                                            image: AssetImage(
+                                              'assets/images/fingerprinter_icon.jpg',
+                                            ),
+                                            fit: BoxFit.contain)),
+                                  ),
+                                )
+                              : const SizedBox();
+                        },
                       ),
                     ],
                   ),

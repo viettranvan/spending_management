@@ -9,3 +9,5 @@ class SendLoginRequest extends SignInEvent{
   final String password;
   SendLoginRequest({required this.email,required this.password});
 }
+
+class FetchData extends SignInEvent{}
