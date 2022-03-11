@@ -1,3 +1,3 @@
 export 'search_bar.dart';
 export 'type_item.dart';
-export 'header_modal_bs.dart';
+export '../../../components/divider/header_modal_bs.dart';

@@ -43,6 +43,7 @@ class MainView extends StatelessWidget {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: showFab ? FloatingActionButton(
+            heroTag: null,
             onPressed: () {
               gotoNewSpending(context);
             },
@@ -58,26 +59,32 @@ class MainView extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  GestureDetector(
+                  InkWell(
                     onTap: () => BlocProvider.of<MainPageBloc>(context)
                         .add(OnChangeTab(index: 0)),
-                    child: Icon(
-                      Icons.home,
-                      size: state.indexOfBottomNavigationBar == 0 ? 45.0 : 35,
-                      color: state.indexOfBottomNavigationBar == 0
-                          ? Colors.red
-                          : Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal:30.0,vertical: 12),
+                      child: Icon(
+                        Icons.home,
+                        size: state.indexOfBottomNavigationBar == 0 ? 45.0 : 35,
+                        color: state.indexOfBottomNavigationBar == 0
+                            ? Colors.red
+                            : Colors.white,
+                      ),
                     ),
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () => BlocProvider.of<MainPageBloc>(context)
                         .add(OnChangeTab(index: 1)),
-                    child: Icon(
-                      Icons.person,
-                      size: state.indexOfBottomNavigationBar == 1 ? 45.0 : 35,
-                      color: state.indexOfBottomNavigationBar == 1
-                          ? Colors.red
-                          : Colors.white,
+                    child: Padding(
+                      padding: const  EdgeInsets.symmetric(horizontal:30.0,vertical: 12),
+                      child: Icon(
+                        Icons.person,
+                        size: state.indexOfBottomNavigationBar == 1 ? 45.0 : 35,
+                        color: state.indexOfBottomNavigationBar == 1
+                            ? Colors.red
+                            : Colors.white,
+                      ),
                     ),
                   ),
                 ],

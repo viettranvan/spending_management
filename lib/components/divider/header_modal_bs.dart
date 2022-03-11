@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/utils.dart';
+import '../../utils/utils.dart';
 
 class HeaderModalBS extends StatelessWidget {
   const HeaderModalBS({Key? key}) : super(key: key);
