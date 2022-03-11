@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:spending_management/UI/auth/finger_printer/view/finger_printer_page.dart';
 import 'package:spending_management/UI/edit_spending/view/edit_spending_page.dart';
 import 'package:spending_management/UI/main_page/view/main_page.dart';
 import 'package:spending_management/UI/splash_screen/view/splash_screen.dart';
@@ -54,6 +55,7 @@ class SpendingManagement extends StatelessWidget {
         NewSpendingPage.id: (context) => const NewSpendingPage(),
         ChangePasswordPage.id: (context) => const ChangePasswordPage(),
         EditSpendingPage.id: (context) => const EditSpendingPage(),
+        FingerPrinterPage.id: (context) => const FingerPrinterPage(),
       },
     );
   }

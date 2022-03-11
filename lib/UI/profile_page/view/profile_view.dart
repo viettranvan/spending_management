@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:spending_management/UI/auth/finger_printer/view/finger_printer_page.dart';
 import 'package:spending_management/UI/auth/sign_in/view/sign_in_page.dart';
 import 'package:spending_management/UI/profile_page/bloc/profile_bloc.dart';
 
@@ -12,6 +13,14 @@ import '../../change_password/view/change_password_page.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
+
+  gotoFingerPrinterPage(BuildContext context) {
+    Navigator.of(context).pushNamed(FingerPrinterPage.id);
+  }
+
+  void gotoChangePassword(BuildContext context) {
+    Navigator.of(context).pushNamed(ChangePasswordPage.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,10 +88,6 @@ class ProfileView extends StatelessWidget {
       }
     }
 
-    void gotoChangePassword(BuildContext context) {
-      Navigator.of(context).pushNamed(ChangePasswordPage.id);
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile', style: kTextSize28w500White),
@@ -138,47 +143,7 @@ class ProfileView extends StatelessWidget {
                     return const SizedBox();
                   },
                 ),
-                Center(
-                  child: Container(
-                    height: 150,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 0.5, color: AppColor.blur),
-                      borderRadius: BorderRadius.circular(150.0),
-                      shape: BoxShape.rectangle,
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(150.0),
-                      child: BlocBuilder<ProfileBloc, ProfileState>(
-                        builder: (context, state) {
-                          if (state is UploadAvatarSuccess) {
-                            Navigator.of(context).maybePop();
-                            Future.delayed(Duration.zero).then((_) {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text('Upload Avatar thành công!',
-                                    style: kTextSize18w400White),
-                                backgroundColor: AppColor.background,
-                              ));
-                            });
-                          }
-                          return FadeInImage(
-                            placeholder: const AssetImage(
-                              'assets/images/image_placeholder.gif',
-                            ),
-                            image: NetworkImage(_auth.currentUser == null
-                                ? noProfileImage
-                                : _auth.currentUser?.photoURL ??
-                                    noProfileImage),
-                            fit: BoxFit.cover,
-                            height: 150.0,
-                            width: 150.0,
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
+                displayAvatar(_auth),
                 const SizedBox(height: 20.0),
                 GestureDetector(
                   onTap: () => pickImage(),
@@ -189,19 +154,7 @@ class ProfileView extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20.0),
-                const Text('Họ tên', style: kTextSize20w400White),
-                const SizedBox(height: 10.0),
-                ReusableTextField(
-                  controller: bloc.nameController,
-                  hintText: 'Name',
-                ),
-                const SizedBox(height: 10.0),
-                const Text('Email', style: kTextSize20w400White),
-                const SizedBox(height: 10.0),
-                ReusableTextField(
-                    controller: bloc.emailController, enabled: false),
-                const SizedBox(height: 20.0),
+                displayInfo(bloc),
                 ReusableButton(
                   onTap: onUpdateProfile,
                   buttonTitle: 'Cập nhật thông tin',
@@ -216,10 +169,122 @@ class ProfileView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 35.0),
+                const Divider(
+                  color: Colors.white,
+                ),
+                const SizedBox(height: 10.0),
+                displayEnebalFingerPrinter(context),
+                const SizedBox(height: 35.0),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget displayAvatar(FirebaseAuth _auth) {
+    return Center(
+      child: Container(
+        height: 150,
+        width: 150,
+        decoration: BoxDecoration(
+          border: Border.all(width: 0.5, color: AppColor.blur),
+          borderRadius: BorderRadius.circular(150.0),
+          shape: BoxShape.rectangle,
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(150.0),
+          child: BlocBuilder<ProfileBloc, ProfileState>(
+            builder: (context, state) {
+              if (state is UploadAvatarSuccess) {
+                Navigator.of(context).maybePop();
+                Future.delayed(Duration.zero).then((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Upload Avatar thành công!',
+                        style: kTextSize18w400White),
+                    backgroundColor: AppColor.background,
+                  ));
+                });
+              }
+              return FadeInImage(
+                placeholder: const AssetImage(
+                  'assets/images/image_placeholder.gif',
+                ),
+                image: NetworkImage(_auth.currentUser == null
+                    ? noProfileImage
+                    : _auth.currentUser?.photoURL ?? noProfileImage),
+                fit: BoxFit.cover,
+                height: 150.0,
+                width: 150.0,
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget displayInfo(ProfileBloc bloc) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 20.0),
+        const Text('Họ tên', style: kTextSize20w400White),
+        const SizedBox(height: 10.0),
+        ReusableTextField(
+          controller: bloc.nameController,
+          hintText: 'Name',
+        ),
+        const SizedBox(height: 10.0),
+        const Text('Email', style: kTextSize20w400White),
+        const SizedBox(height: 10.0),
+        ReusableTextField(controller: bloc.emailController, enabled: false),
+        const SizedBox(height: 20.0),
+      ],
+    );
+  }
+
+  Widget displayEnebalFingerPrinter(BuildContext context) {
+    return GestureDetector(
+      onTap: () => gotoFingerPrinterPage(context),
+      child: Row(
+        children: [
+          Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+              color: AppColor.white,
+              borderRadius: BorderRadius.circular(10.0),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [AppColor.white, AppColor.white.withOpacity(0.5)],
+              ),
+              image: const DecorationImage(
+                image: AssetImage(
+                  'assets/images/fingerprinter_icon.jpg',
+                ),
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 10.0,
+          ),
+          const Expanded(
+            child: Text(
+              'Đăng nhập bằng vân tay',
+              style: kTextSize20w400White,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const Icon(
+            Icons.arrow_right_rounded,
+            size: 40,
+            color: Colors.white,
+          )
+        ],
       ),
     );
   }

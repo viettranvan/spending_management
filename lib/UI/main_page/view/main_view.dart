@@ -15,9 +15,12 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool showFab = MediaQuery.of(context).viewInsets.bottom==0.0;
     return BlocBuilder<MainPageBloc, MainPageState>(
       builder: (context, state) {
+
         return Scaffold(
+          resizeToAvoidBottomInset: true,
           body: BlocBuilder<MainPageBloc, MainPageState>(
             builder: (context, state) {
               if (state is HomePageState) {
@@ -39,14 +42,14 @@ class MainView extends StatelessWidget {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: FloatingActionButton(
+          floatingActionButton: showFab ? FloatingActionButton(
             onPressed: () {
               gotoNewSpending(context);
             },
             elevation: 5.0,
             highlightElevation: 5.0,
             child: const Icon(Icons.add),
-          ),
+          ) : null,
           bottomNavigationBar: BottomAppBar(
             shape: const CircularNotchedRectangle(),
             notchMargin: 10.0,
