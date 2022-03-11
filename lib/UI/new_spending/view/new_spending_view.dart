@@ -24,7 +24,7 @@ class NewSpendingView extends StatelessWidget {
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Image.asset(
-            'assets/images/back_icon.jpg',
+            'assets/images/icon_back.png',
             color: Colors.white,
           ),
         ),
@@ -238,8 +238,6 @@ class NewSpendingView extends StatelessWidget {
           firstDate: DateTime(1900),
           lastDate: DateTime(2100),
         );
-
-        // var dateString = getDateString(date ?? DateTime.now());
         context
             .read<NewSpendingBloc>()
             .add(PickDate(date: date ?? DateTime.now()));

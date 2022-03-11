@@ -36,7 +36,7 @@ class ForgotPasswordView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 25.0),
                 Center(
                     child: Text('QUẢN LÝ CHI TIÊU',
                         style: kTextSize30w400White.copyWith(

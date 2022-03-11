@@ -23,7 +23,6 @@ class FingerModalBsBloc extends Bloc<FingerModalBsEvent, FingerModalBsState> {
       var authenticationObj = await AuthService().signInWithEmailAndPassword(
           _auth.currentUser?.email ?? '', event.password);
       if (authenticationObj.runtimeType == Authentication) {
-        print(event.password);
         emit( Success(password: event.password));
       } else if (authenticationObj.runtimeType == FirebaseAuthException) {
         emit(

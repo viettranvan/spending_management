@@ -5,7 +5,6 @@ import '../../../services/services.dart';
 import '../../../utils/utils.dart';
 import '../../main_page/view/main_page.dart';
 
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -16,7 +15,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   bool isLogin = false;
 
-
   @override
   void initState() {
     HelperSharedPreferences.getLogin().then((value) {
@@ -24,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
     });
     super.initState();
   }
+
   @override
   void didChangeDependencies() {
     checkLogin();
@@ -34,14 +33,12 @@ class _SplashScreenState extends State<SplashScreen> {
     HelperSharedPreferences.getExpirationTime().then((value) {
       int timeNow = DateTime.now().millisecondsSinceEpoch;
       Future.delayed(const Duration(seconds: 3)).then((_) {
-        if (value != null &&
-            value >= timeNow &&
-            isLogin &&
-            value != -1) {
-          Navigator.pushNamedAndRemoveUntil(context, MainPage.id,(Route<dynamic> route) => false);
-
+        if (value != null && value >= timeNow && isLogin && value != -1) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, MainPage.id, (Route<dynamic> route) => false);
         } else {
-          Navigator.pushNamedAndRemoveUntil(context, SignInPage.id,(Route<dynamic> route) => false);
+          Navigator.pushNamedAndRemoveUntil(
+              context, SignInPage.id, (Route<dynamic> route) => false);
         }
       });
     });
@@ -49,7 +46,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -57,9 +53,15 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           const SizedBox(height: 10.0),
           Center(
-              child: Text('SPENDING MANAGEMENT',
-                  style: kTextSize30w400White.copyWith(
-                      fontWeight: FontWeight.bold))),
+            child: Text(
+              'SPENDING MANAGEMENT',
+              textAlign: TextAlign.center,
+              style: kTextSize30w400White.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(height: 10.0),
           Center(
             child: SizedBox(
               height: 150.0,
@@ -73,12 +75,13 @@ class _SplashScreenState extends State<SplashScreen> {
           const SizedBox(height: 10.0),
           Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text('Quản lý chi tiêu của bạn',
-                    textAlign: TextAlign.center,
-                    style: kTextSize30w400White.copyWith(
-                        fontWeight: FontWeight.bold,)),
-              )),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text('Quản lý chi tiêu của bạn',
+                textAlign: TextAlign.center,
+                style: kTextSize30w400White.copyWith(
+                  fontWeight: FontWeight.bold,
+                )),
+          )),
           const SizedBox(height: 20.0),
           SizedBox(
             height: 50.0,

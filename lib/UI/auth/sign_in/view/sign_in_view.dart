@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spending_management/services/local_auth.dart';
 import '../../../../components/components.dart';
 import '../../../../models/models.dart';
@@ -53,7 +52,6 @@ class SignInView extends StatelessWidget {
 
     onFingerPrinterLogin(BuildContext context, SignInBloc bloc) async {
       final isAuthenticate = await LocalAuth.authenticate(bloc.state.email ?? '');
-      print(bloc.state.email);
       if (isAuthenticate) {
         showDialog(
           context: context,
@@ -84,7 +82,7 @@ class SignInView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 10.0),
+                  const SizedBox(height: 25.0),
                   Center(
                     child: Text(
                       'QUẢN LÝ CHI TIÊU',

@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../models/models.dart';
 import '../../../../services/services.dart';
@@ -108,9 +107,5 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     return super.close();
   }
 
-  @override
-  void onChange(Change<SignInState> change) {
-    print(change);
-    super.onChange(change);
-  }
+ 
 }
