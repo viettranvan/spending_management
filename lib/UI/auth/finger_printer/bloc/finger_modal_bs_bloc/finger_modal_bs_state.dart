@@ -5,7 +5,10 @@ abstract class FingerModalBsState {}
 
 class FingerModalBsInitial extends FingerModalBsState {}
 
-class Success extends FingerModalBsState {}
+class Success extends FingerModalBsState {
+  final String password;
+  Success({required this.password});
+}
 
 class Failure extends FingerModalBsState {
   final String errorText;

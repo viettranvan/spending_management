@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spending_management/services/local_auth.dart';
 import '../../../../components/components.dart';
 import '../../../../models/models.dart';
@@ -175,6 +176,7 @@ class SignInView extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 10.0),
+                      
                       BlocBuilder<SignInBloc, SignInState>(
                         builder: (context, state) => GestureDetector(
                           onTap: () => onFingerPrinterLogin(context),

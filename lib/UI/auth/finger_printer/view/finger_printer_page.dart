@@ -2,18 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spending_management/UI/auth/finger_printer/bloc/finger_printer_bloc.dart';
 import 'package:spending_management/UI/auth/finger_printer/view/finger_model_bs.dart';
+import 'package:spending_management/components/dialog/custom_dialog.dart';
 import 'package:spending_management/utils/app_style.dart';
 
 class FingerPrinterPage extends StatelessWidget {
   static const String id = 'finger_printer';
   const FingerPrinterPage({Key? key}) : super(key: key);
 
-  _openSpendingType(BuildContext context, FingerPrinterBloc bloc) async {
+  _openEnableFinger(BuildContext context, FingerPrinterBloc bloc) async {
     bool? data = await FingerModalBS.show(context);
-
     if (data != null && data) {
       bloc.add(EnableFinger());
     }
+  }
+
+  _openDisableFinger(BuildContext context, FingerPrinterBloc bloc) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => CustomDialog(
+        title: 'Thông báo',
+        content: 'Bạn có muốn hủy phương thức đăng nhập bằng vân tay',
+        onSubmit: (){
+          bloc.add(DisableFinger());
+          // close diglog
+          Navigator.pop(context);
+        },
+      ),
+    );
   }
 
   @override
@@ -55,7 +71,11 @@ class FingerPrinterPage extends StatelessWidget {
                       child: Switch(
                         value: (state as FingerPrinterInitial).enable ?? false,
                         onChanged: (value) {
-                          _openSpendingType(context, bloc);
+                          if (value) {
+                            _openEnableFinger(context, bloc);
+                          } else {
+                            _openDisableFinger(context, bloc);
+                          }
                         },
                         activeTrackColor: Colors.lightGreenAccent,
                         activeColor: Colors.green,

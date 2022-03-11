@@ -5,6 +5,8 @@ import 'package:spending_management/UI/auth/finger_printer/bloc/finger_modal_bs_
 import 'package:spending_management/components/components.dart';
 import 'package:spending_management/utils/utils.dart';
 
+import '../../../../services/shared_preferences.dart';
+
 class FingerModalBS extends StatelessWidget {
   const FingerModalBS({Key? key}) : super(key: key);
 
@@ -65,16 +67,18 @@ class FingerModalBS extends StatelessWidget {
           BlocBuilder<FingerModalBsBloc, FingerModalBsState>(
             builder: (context, state) {
               if (state is Success) {
-                Future.delayed(Duration.zero).then((_) {
+                Future.delayed(Duration.zero).then((_) async {
                   // close laoding dialog
                   Navigator.of(context).pop();
+                  await HelperSharedPreferences.saveIsFingerPrinterLogin(true);
+                  await HelperSharedPreferences.savePassword(state.password);
                   // pop to finger_printer_page
                   Navigator.of(context).pop<bool>(true);
                 });
               }
               if (state is Failure) {
                 // close laoding dialog
-                  Navigator.of(context).pop();
+                Navigator.of(context).pop();
                 return Center(
                   child: Text(
                     state.errorText,

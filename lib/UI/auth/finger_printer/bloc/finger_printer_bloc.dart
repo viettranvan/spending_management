@@ -8,13 +8,23 @@ part 'finger_printer_state.dart';
 class FingerPrinterBloc extends Bloc<FingerPrinterEvent, FingerPrinterState> {
   FingerPrinterBloc() : super(FingerPrinterInitial()) {
     on<EnableFinger>(_enableFinger);
+    on<DisableFinger>(_disableFinger);
     on<FetchData>(_onFetchData);
   }
 
   _enableFinger(EnableFinger event, Emitter<FingerPrinterState> emit) async {
     var currentState = state;
     if (currentState is FingerPrinterInitial) {
-      currentState.update(enable: true);
+      emit(currentState.update(enable: true));
+    }
+  }
+
+  _disableFinger(DisableFinger event, Emitter<FingerPrinterState> emit) async {
+    var currentState = state;
+    if (currentState is FingerPrinterInitial) {
+      await HelperSharedPreferences.saveIsFingerPrinterLogin(false);
+      await HelperSharedPreferences.savePassword('');
+      emit(currentState.update(enable: false));
     }
   }
 
@@ -23,11 +33,10 @@ class FingerPrinterBloc extends Bloc<FingerPrinterEvent, FingerPrinterState> {
       bool? enable = await HelperSharedPreferences.getIsFingerPrinterLogin();
       var currentState = state;
       if (currentState is FingerPrinterInitial) {
-        currentState.update(enable: enable);
+        emit(currentState.update(enable: enable));
       }
     } catch (e) {
       debugPrint(e.toString());
     }
   }
- 
 }

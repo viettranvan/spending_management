@@ -9,7 +9,6 @@ class HelperSharedPreferences {
   static const String isLoginKey = '701a9638123cb030fe067f6b674bc742ec0b66eb';
   static const String fingerPrinterLoginKey =
       'bc09203de4a5ec18a5bf478a9175fe44a39d96da';
-  static const String emailKey = 'a88b7dcd1a9e3e17770bbaa6d7515b31a2d7e85d';
   static const String passwordKey = '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8';
 
   // save
@@ -38,10 +37,7 @@ class HelperSharedPreferences {
     return preferences.setBool(fingerPrinterLoginKey, isFinger);
   }
 
-  static Future<bool> saveEmail(String email) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.setString(emailKey, email);
-  }
+ 
 
   static Future<bool> savePassword(String password) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -73,10 +69,7 @@ class HelperSharedPreferences {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getBool(fingerPrinterLoginKey);
   }
-  static Future<String?> getEmail() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getString(emailKey);
-  }
+
   static Future<String?> getPassword() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(passwordKey);
